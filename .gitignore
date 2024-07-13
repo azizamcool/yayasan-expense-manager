@@ -1,0 +1,57 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node.js and React Native directories
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Backend / Spring Boot
+api/expense-manager/.gitignore
+api/expense-manager/HELP.md
+api/expense-manager/target/
+!api/expense-manager/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# STS
+api/expense-manager/.apt_generated
+api/expense-manager/.classpath
+api/expense-manager/.factorypath
+api/expense-manager/.project
+api/expense-manager/.settings
+api/expense-manager/.springBeans
+api/expense-manager/.sts4-cache
+
+# IntelliJ IDEA
+api/expense-manager/*.iws
+api/expense-manager/*.iml
+api/expense-manager/*.ipr
+
+# NetBeans
+api/expense-manager/nbproject/private/
+api/expense-manager/nbbuild/
+api/expense-manager/dist/
+api/expense-manager/nbdist/
+api/expense-manager/.nb-gradle/
+api/expense-manager/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
