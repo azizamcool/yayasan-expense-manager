@@ -1,10 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import axios from 'axios'
+
+const URL = 'http://localhost:8080/users';
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Replace with your API endpoint
+        const response = await axios.get(URL);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error)
+      }
+    };
+
+    // Call the fetchData function
+    fetchData();
+  }, []);
 
   return (
     <>
