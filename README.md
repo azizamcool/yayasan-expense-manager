@@ -43,3 +43,6 @@
 
 4. **Open the API/expense-manager folder in IntelliJ**
    - Use IntelliJ to open the `api/expense-manager` folder for further development.
+  
+## Database Setup
+   -
