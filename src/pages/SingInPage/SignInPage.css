@@ -1,0 +1,330 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.login-left, .login-right {
+    flex: 1;
+    padding: 20px;
+}
+
+.login-left {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-left-container {
+    position: relative;
+    margin-left: 0;
+    width: 90%;
+    max-width: 700px;
+}
+
+.login-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 34px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: left;
+    z-index: 5;
+}
+
+.login-title {
+    background-color: #fff;
+    border-top-right-radius: 34px;
+    border-top-left-radius: 34px;
+    width: fit-content;
+    padding: 0px 25px 25px 25px;
+    position: relative;
+    top: 23px;
+    z-index: 1;
+}
+
+.login-box > form {
+    margin-top: 10px;
+}
+
+.login-title > p {
+    font-family: 'Kanit', sans-serif;
+    font-size: 48px;
+    font-weight: bolder;
+    background: linear-gradient(to bottom, #67B260, #2C4C29);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* This makes the gradient visible */
+    margin: 0px;
+}
+
+.input-group {
+    margin-bottom: 30px;
+    margin-left: 10%;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-family: 'Inria-Serif', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.input-group input {
+    width: 80%;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    background-color: rgba(103, 178, 96, 0.3);
+}
+
+.login-button {
+    background-color: #6F9C7B;
+    font-family: 'Kanit', sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    border: 1px solid transparent;
+    border-radius: 13px;
+    width: 50%;
+    display: block; /* Ensure the button is treated as a block element */
+    margin: 0 auto; /* Center the button horizontally */
+    cursor: pointer;
+}
+
+.welcome-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.welcome-text > h2 {
+    font-family: 'Kanit', sans-serif;
+    font-size: 96px;
+    font-weight: bolder;
+    background: linear-gradient(to bottom, #67B260, #2C4C29);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; /* This makes the gradient visible */
+    margin: 0;
+}
+
+.welcome-text > p {
+    font-family: 'Inria-Serif', sans-serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: #419134;
+    margin: 0;
+    position: relative;
+    top: -10px;
+}
+
+.image-container {
+    display: none; /* Hide image container on smaller screens */
+}
+
+.login-box-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-box-footer > a > p {
+    text-decoration: underline;
+    font-family: 'Inria-Serif', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+/* Media Queries for Responsive Design */
+@media (min-width: 768px) {
+    .login-container {
+        flex-direction: row;
+    }
+
+    .login-left, .login-right {
+        padding: 40px;
+    }
+
+    .login-title > p {
+        font-size: 32px;
+    }
+
+    .input-group {
+        margin-bottom: 40px;
+    }
+
+    .input-group label {
+        font-size: 18px;
+    }
+
+    .input-group input {
+        height: 32px;
+    }
+
+    .login-button {
+        font-size: 28px;
+        width: 30%;
+    }
+
+    .welcome-text {
+        text-align: right;
+        margin-right: 35px;
+    }
+
+    .welcome-text > h2 {
+        font-size: 64px;
+    }
+
+    .welcome-text > p {
+        font-size: 24px;
+    }
+
+    .image-container {
+        display: block; /* Show image container on larger screens */
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        width: 500px;
+        height: 500px;
+    }
+
+    .image {
+        width: 500px;
+        height: auto;
+        position: absolute;
+        bottom: -50px;
+        right: -50px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-container {
+        flex-direction: row;
+    }
+
+    .login-left, .login-right {
+        padding: 40px;
+    }
+
+    .login-title > p {
+        font-size: 48px;
+    }
+
+    .input-group {
+        margin-bottom: 40px;
+    }
+
+    .input-group label {
+        font-size: 24px;
+    }
+
+    .input-group input {
+        height: 50px;
+    }
+
+    .login-button {
+        font-size: 32px;
+        width: 35%;
+    }
+
+    .welcome-text {
+        text-align: right;
+        margin-right: 35px;
+    }
+
+    .welcome-text > h2 {
+        font-size: 96px;
+    }
+
+    .welcome-text > p {
+        font-size: 24px;
+    }
+
+    .image-container {
+        display: block; /* Show image container on larger screens */
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        width: 600px;
+        height: 600px;
+    }
+
+    .image {
+        width: 600px;
+        height: auto;
+        position: absolute;
+        bottom: -50px;
+        right: -50px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .login-container {
+        flex-direction: row;
+    }
+
+    .login-left, .login-right {
+        padding: 40px;
+    }
+
+    .login-title > p {
+        font-size: 64px;
+    }
+
+    .input-group {
+        margin-bottom: 40px;
+    }
+
+    .input-group label {
+        font-size: 24px;
+    }
+
+    .input-group input {
+        height: 50px;
+    }
+
+    .login-button {
+        font-size: 48px;
+        width: 30%;
+    }
+
+    .welcome-text {
+        text-align: right;
+        margin-right: 35px;
+    }
+
+    .welcome-text > h2 {
+        font-size: 128px;
+    }
+
+    .welcome-text > p {
+        font-size: 32px;
+    }
+
+    .image-container {
+        display: block; /* Show image container on larger screens */
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+        width: 800px;
+        height: 800px;
+    }
+
+    .image {
+        width: 700px;
+        height: auto;
+        position: absolute;
+        bottom: -50px;
+        right: -50px;
+    }
+}
