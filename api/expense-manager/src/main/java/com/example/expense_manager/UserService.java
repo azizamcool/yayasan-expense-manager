@@ -9,6 +9,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+//    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//
+//    public User save(User user) {
+//        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+//        return userRepository.save(user);
+//    }
+
     public User save(User user) {
         return userRepository.save(user);
     }

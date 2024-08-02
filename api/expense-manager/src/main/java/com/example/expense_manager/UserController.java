@@ -2,6 +2,7 @@ package com.example.expense_manager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,34 +21,34 @@ public class UserController {
         return names;
     }
 
-    @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "register.html";
+    @GetMapping("/index")
+    public String showRegistrationFormtest() {
+        return "index.html";
     }
+
 
     @PostMapping("/register")
     @ResponseBody
-    public String registerUser(@RequestParam String name, @RequestParam String username, @RequestParam String password) {
+    public String registerUser(@RequestParam String username, @RequestParam String password) {
+                               //@RequestParam(required = false) String email, @RequestParam(required = false)
+                                //   String preferredCurrency) {
         User user = new User();
-        user.setName(name);
         user.setUsername(username);
-        user.setPassword(password);
+        user.setPasswordHash(password);
+        //user.setEmail(email);
+       // user.setPreferredCurrency(preferredCurrency);
         userService.save(user);
-        return "Registration successful. You can now <a href='/login.html'>login</a>.";
-    }
-
-    @GetMapping("/login")
-    public String showLoginForm() {
-        return "login.html";
+        return "Registration successful. You can now <a href='/loginHTML.html'>login</a>.";
     }
 
     @PostMapping("/login")
     @ResponseBody
     public String loginUser(@RequestParam String username, @RequestParam String password) {
         User user = userService.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return "Login successful. Welcome, " + user.getName() + "!";
+        if (user != null && user.getPasswordHash().equals(password)) {
+            return "Login successful. Welcome, " + user.getUsername() + "!";
         }
         return "Invalid username or password. Please try again.";
     }
+
 }
