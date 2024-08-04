@@ -1,4 +1,4 @@
-package com.example.expense_manager;
+package com.example.expense_manager.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -6,8 +6,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Expense")
-public class Expense {
+@Table(name = "Budget")
+public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,24 +16,18 @@ public class Expense {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
     @Column(nullable = false)
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private String currency;
+    private Date periodStart;
 
     @Column(nullable = false)
-    private Date expenseDate;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @Column
-    private String notes;
-
-    @Column
-    private String imageUrl;
+    private Date periodEnd;
 
     @Column
     private Timestamp createdAt;
@@ -59,30 +53,6 @@ public class Expense {
         this.user = user;
     }
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public Date getExpenseDate() {
-        return expenseDate;
-    }
-
-    public void setExpenseDate(Date expenseDate) {
-        this.expenseDate = expenseDate;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -91,20 +61,28 @@ public class Expense {
         this.category = category;
     }
 
-    public String getNotes() {
-        return notes;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Date getPeriodStart() {
+        return periodStart;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setPeriodStart(Date periodStart) {
+        this.periodStart = periodStart;
+    }
+
+    public Date getPeriodEnd() {
+        return periodEnd;
+    }
+
+    public void setPeriodEnd(Date periodEnd) {
+        this.periodEnd = periodEnd;
     }
 
     public Timestamp getCreatedAt() {

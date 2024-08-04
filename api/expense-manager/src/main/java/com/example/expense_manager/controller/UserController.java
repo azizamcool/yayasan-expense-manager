@@ -1,9 +1,9 @@
-package com.example.expense_manager;
+package com.example.expense_manager.controller;
 
+import com.example.expense_manager.entity.User;
+import com.example.expense_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -33,12 +33,12 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String loginUser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
         User user = userService.findByUsername(username);
         if (user != null && user.getPasswordHash().equals(password)) {
-            return "Login successful. Welcome, " + user.getUsername() + "!";
+            return ResponseEntity.ok("Login successful , Welcome, " + user.getUsername());
         }
-        return "Invalid username or password. Please try again.";
+            return ResponseEntity.status(401).body("Invalid username or password");
     }
 
 }

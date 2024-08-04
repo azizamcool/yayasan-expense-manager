@@ -1,4 +1,4 @@
-package com.example.expense_manager;
+package com.example.expense_manager.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -6,8 +6,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "Budget")
-public class Budget {
+@Table(name = "Expense")
+public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,18 +16,24 @@ public class Budget {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
-
     @Column(nullable = false)
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private Date periodStart;
+    private String currency;
 
     @Column(nullable = false)
-    private Date periodEnd;
+    private Date expenseDate;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @Column
+    private String notes;
+
+    @Column
+    private String imageUrl;
 
     @Column
     private Timestamp createdAt;
@@ -53,14 +59,6 @@ public class Budget {
         this.user = user;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -69,20 +67,44 @@ public class Budget {
         this.amount = amount;
     }
 
-    public Date getPeriodStart() {
-        return periodStart;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setPeriodStart(Date periodStart) {
-        this.periodStart = periodStart;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public Date getPeriodEnd() {
-        return periodEnd;
+    public Date getExpenseDate() {
+        return expenseDate;
     }
 
-    public void setPeriodEnd(Date periodEnd) {
-        this.periodEnd = periodEnd;
+    public void setExpenseDate(Date expenseDate) {
+        this.expenseDate = expenseDate;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Timestamp getCreatedAt() {

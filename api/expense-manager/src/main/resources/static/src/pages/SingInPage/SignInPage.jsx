@@ -19,8 +19,11 @@ const SignInPage = () => {
             params.append('username', username);
             params.append('password', password);
             const response = await axios.post('http://localhost:8080/login', params);
+
+            if (response.status === 200) {
+                navigate('/homepage');
+            }
             alert(response.data);
-            navigate('/homepage');
         } catch (error) {
             alert('Login failed: ' + (error));
         }

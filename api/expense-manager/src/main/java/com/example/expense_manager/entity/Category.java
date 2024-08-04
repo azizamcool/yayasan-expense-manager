@@ -1,4 +1,4 @@
-package com.example.expense_manager;
+package com.example.expense_manager.entity;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
