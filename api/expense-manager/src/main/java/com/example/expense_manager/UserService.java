@@ -3,6 +3,9 @@ package com.example.expense_manager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Service
 public class UserService {
 
@@ -17,6 +20,9 @@ public class UserService {
 //    }
 
     public User save(User user) {
+        LocalDateTime now = LocalDateTime.now();
+        user.setCreatedAt(Timestamp.valueOf(now));
+        user.setUpdatedAt(Timestamp.valueOf(now));
         return userRepository.save(user);
     }
 

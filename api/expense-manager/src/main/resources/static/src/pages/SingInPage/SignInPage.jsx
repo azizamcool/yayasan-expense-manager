@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 
 import './SignInPage.css';
@@ -10,16 +10,23 @@ const SignInPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/login', { username, password });
+            const params = new URLSearchParams();
+            params.append('username', username);
+            params.append('password', password);
+            const response = await axios.post('http://localhost:8080/login', params);
             alert(response.data);
+            navigate('/homepage');
         } catch (error) {
             alert('Login failed: ' + (error));
         }
     };
+
+
 
     return (
         <div className="login-container">
@@ -28,7 +35,6 @@ const SignInPage = () => {
                     <div className="login-title">
                         <p>Sign In</p>
                     </div>
-
                     <div className="login-box">
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
@@ -49,12 +55,20 @@ const SignInPage = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
+                            <div className="input-group remember-me">
+                                <input
+                                    type="checkbox"
+                                    id="rememberMe"
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                />
+                                <label htmlFor="rememberMe">Remember Me</label>
+                            </div>
                             <button type="submit" className="login-button">LOGIN</button>
+                            <div className="login-box-footer">
+                                <Link to='/register'><p>Don't have an account?</p></Link>
+                            </div>
                         </form>
-
-                        <div className="login-box-footer">
-                            <Link to='/signup'><p>Don't have an account?</p></Link>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -65,9 +79,8 @@ const SignInPage = () => {
                         <h2>WELCOME!</h2>
                         <p>Your personal money manager</p>
                     </div>
-
                     <div className="image-container">
-                        <img className="image" src={welcomeGuy} alt="welcome guy"></img>
+                        <img className="image" src={welcomeGuy} alt="welcome guy" />
                     </div>
                 </div>
             </div>

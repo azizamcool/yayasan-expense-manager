@@ -142,6 +142,24 @@
     color: black;
 }
 
+
+.input-group.remember-me {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.input-group.remember-me input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
+.input-group.remember-me label {
+    margin: 0;
+    font-weight: normal;
+}
+
 /* Media Queries for Responsive Design */
 @media (min-width: 768px) {
     .login-container {

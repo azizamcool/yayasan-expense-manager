@@ -11,34 +11,24 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 public class UserController {
-    String[] names = {"Amrin", "Misaki", "Kaguya"};
-
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/users")
-    public String[] getUsers() {
-        return names;
-    }
-
-    @GetMapping("/index")
-    public String showRegistrationFormtest() {
-        return "index.html";
-    }
-
-
+    //kena tambah user dan setup currency?
     @PostMapping("/register")
     @ResponseBody
-    public String registerUser(@RequestParam String username, @RequestParam String password) {
-                               //@RequestParam(required = false) String email, @RequestParam(required = false)
+    public String registerUser(@RequestParam String username, @RequestParam String password,
+                               @RequestParam(required = false) String email) {
+                                //}, @RequestParam(required = false){
                                 //   String preferredCurrency) {
         User user = new User();
+        //user.setName(name);
         user.setUsername(username);
         user.setPasswordHash(password);
-        //user.setEmail(email);
-       // user.setPreferredCurrency(preferredCurrency);
+        user.setEmail(email);
+        user.setPreferredCurrency("MYR");
         userService.save(user);
-        return "Registration successful. You can now <a href='/loginHTML.html'>login</a>.";
+        return "Registration successful, WELCOME " + user.getUsername();
     }
 
     @PostMapping("/login")

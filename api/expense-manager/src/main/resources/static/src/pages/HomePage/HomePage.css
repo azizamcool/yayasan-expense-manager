@@ -1,0 +1,171 @@
+/* Basic CSS reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ccc;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.header-item {
+    text-align: center;
+    width: 33%;
+}
+
+.header-item span {
+    display: block;
+    font-size: 24px;
+}
+
+.expense {
+    color: #A40000;
+}
+
+.income {
+    color: #0070C0;
+}
+
+.balance {
+    color: #3D5E00;
+}
+
+.menu-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.accounts {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.accounts h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.account-list {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.account {
+    text-align: center;
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.account span {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.expenses {
+    margin-top: 20px;
+}
+
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.percentage {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.spending {
+    flex: 0.8;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.spending h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.spending span {
+    font-size: 18px;
+}
+
+.spending-chart {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(
+        #ff4b4b 0% 25%,
+        #ffa600 25% 50%,
+        #4cff4b 50% 75%,
+        #4b4bff 75% 100%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spending-amount {
+    position: absolute;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.add-expense {
+    margin-top: 20px;
+}
+
+.add-expense button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+}

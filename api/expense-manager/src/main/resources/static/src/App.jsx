@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Link, BrowserRouter } from 'rea
 // import pages
 import SignInPage from './pages/SingInPage/SignInPage'
 import SignUpPage from './pages/SignUpPage/SignUpPage'
+import HomePage from './pages/HomePage/HomePage'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
             <Routes>
                 <Route path="/login" element={<SignInPage />} />
                 <Route path="/register" element={<SignUpPage />} />
+                <Route path="/homepage" element={<HomePage />} />
             </Routes>
         </BrowserRouter>
     )

@@ -10,16 +10,16 @@ const SignUpPage = () => {
     const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [rePassword, setRePassword] = useState('');
+    const [email, setEmail] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("name: ", name);
-        console.log("username: ", username);
-        console.log("password: ", password);
-        console.log("rePassword: ", rePassword);
+        const params = new URLSearchParams();
+        params.append('username', username);
+        params.append('password', password);
+        params.append('email', email);
             try {
-                const response = await axios.post('http://localhost:8080/register', { username, password});
+                const response = await axios.post('http://localhost:8080/register', params);
                 alert(response.data);
             } catch (error) {
                 alert('Login failed: ' + (error));
@@ -28,14 +28,13 @@ const SignUpPage = () => {
 
 
 
-    return (
+return (
         <div className="login-container">
             <div className="login-left">
                 <div className="login-left-container">
                     <div className="login-title">
                         <p>Create Account</p>
                     </div>
-
                     <div className="login-box login-box-signup">
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
@@ -66,16 +65,19 @@ const SignUpPage = () => {
                                 />
                             </div>
                             <div className="input-group">
-                                <label htmlFor="re-password">Re-enter Password</label>
+                                <label htmlFor="email">Email</label>
                                 <input
-                                    type="password"
-                                    id="re-password"
-                                    value={rePassword}
-                                    onChange={(e) => setRePassword(e.target.value)}
+                                    type="text"
+                                    id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <button type="submit" className="login-button">SIGN UP</button>
                         </form>
+                        <div className="login-box-footer">
+                            <Link to='/login'><p>Have an account? login</p></Link>
+                        </div>
                     </div>
                 </div>
             </div>
