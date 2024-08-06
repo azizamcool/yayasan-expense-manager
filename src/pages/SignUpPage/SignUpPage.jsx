@@ -3,6 +3,9 @@ import { useState } from "react";
 import './SignUpPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
 
+import API_END_POINTS from "../../config/api-end-points";
+import ApiRequest from "../../config/api-request";
+
 const SignUpPage = () => {
 
     const [name, setName] = useState('');
@@ -10,11 +13,25 @@ const SignUpPage = () => {
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
 
-    const handleSubmit = () => {
-        console.log("name: ", name);
-        console.log("username: ", username);
-        console.log("password: ", password);
-        console.log("rePassword: ", rePassword);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (rePassword != password) {
+            return alert("Password does not match!");
+        }
+
+        try {
+            const params = {
+                username: username, 
+                password: password,
+            };
+
+            const response = await ApiRequest(API_END_POINTS.USER_SIGNUP, params);
+
+            console.log("response: ", response);
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     return (

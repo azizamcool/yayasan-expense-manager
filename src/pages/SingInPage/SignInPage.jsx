@@ -4,15 +4,30 @@ import { Link } from "react-router-dom";
 import './SignInPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
 
+import API_END_POINTS from "../../config/api-end-points";
+import ApiRequest from "../../config/api-request";
+
 const SignInPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
-    const handleSubmit = () => {
-        console.log("username: ", username);
-        console.log("password: ", password);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const params = {
+                username: username, 
+                password: password,
+            };
+
+            const response = await ApiRequest(API_END_POINTS.USER_LOGIN, params);
+
+            console.log("response: ", response);
+        } catch(error) {
+            console.error(error);
+        }
     };
 
     return (
