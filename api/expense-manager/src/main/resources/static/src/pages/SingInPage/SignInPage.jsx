@@ -1,32 +1,34 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import axios from 'axios';
+import { Link } from "react-router-dom";
 
 import './SignInPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
 
+import API_END_POINTS from "../../config/api-end-points";
+import ApiRequest from "../../config/api-request";
+
 const SignInPage = () => {
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         try {
-            const params = new URLSearchParams();
-            params.append('username', username);
-            params.append('password', password);
-            const response = await axios.post('http://localhost:8080/login', params);
-            alert(response.data);
-            navigate('/homepage');
-        } catch (error) {
-            alert('Login failed: ' + (error));
+            const params = {
+                username: username, 
+                password: password,
+            };
+
+            const response = await ApiRequest(API_END_POINTS.USER_LOGIN, params);
+
+            console.log("response: ", response);
+        } catch(error) {
+            console.error(error);
         }
     };
-
-
 
     return (
         <div className="login-container">
@@ -35,6 +37,7 @@ const SignInPage = () => {
                     <div className="login-title">
                         <p>Sign In</p>
                     </div>
+
                     <div className="login-box">
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
@@ -55,20 +58,12 @@ const SignInPage = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
-                            <div className="input-group remember-me">
-                                <input
-                                    type="checkbox"
-                                    id="rememberMe"
-                                    checked={rememberMe}
-                                    onChange={(e) => setRememberMe(e.target.checked)}
-                                />
-                                <label htmlFor="rememberMe">Remember Me</label>
-                            </div>
                             <button type="submit" className="login-button">LOGIN</button>
-                            <div className="login-box-footer">
-                                <Link to='/register'><p>Don't have an account?</p></Link>
-                            </div>
                         </form>
+
+                        <div className="login-box-footer">
+                            <Link to='/signup'><p>Don't have an account?</p></Link>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,8 +74,9 @@ const SignInPage = () => {
                         <h2>WELCOME!</h2>
                         <p>Your personal money manager</p>
                     </div>
+
                     <div className="image-container">
-                        <img className="image" src={welcomeGuy} alt="welcome guy" />
+                        <img className="image" src={welcomeGuy} alt="welcome guy"></img>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,7 @@
-package com.example.expense_manager;
+package com.example.expense_manager.service;
 
+import com.example.expense_manager.repository.UserRepository;
+import com.example.expense_manager.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
