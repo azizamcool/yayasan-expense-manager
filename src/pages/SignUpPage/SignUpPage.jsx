@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import './SignUpPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
@@ -8,7 +9,6 @@ import ApiRequest from "../../config/api-request";
 
 const SignUpPage = () => {
 
-    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
@@ -45,15 +45,6 @@ const SignUpPage = () => {
                     <div className="login-box login-box-signup">
                         <form onSubmit={handleSubmit}>
                             <div className="input-group">
-                                <label htmlFor="name">Name</label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </div>
-                            <div className="input-group">
                                 <label htmlFor="username">Username</label>
                                 <input
                                     type="text"
@@ -82,6 +73,10 @@ const SignUpPage = () => {
                             </div>
                             <button type="submit" className="login-button">SIGN UP</button>
                         </form>
+
+                        <div className="login-box-footer">
+                            <Link to='/'><p>Already have an account? Login instead</p></Link>
+                        </div>
                     </div>
                 </div>
             </div>

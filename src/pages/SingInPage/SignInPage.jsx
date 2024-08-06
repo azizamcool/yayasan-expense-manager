@@ -11,7 +11,6 @@ const SignInPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,6 +26,7 @@ const SignInPage = () => {
             console.log("response: ", response);
         } catch(error) {
             console.error(error);
+            return alert("Invalid username or password!");
         }
     };
 
