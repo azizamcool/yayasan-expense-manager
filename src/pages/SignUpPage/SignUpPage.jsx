@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './SignUpPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
@@ -12,6 +12,8 @@ const SignUpPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +31,8 @@ const SignUpPage = () => {
             const response = await ApiRequest(API_END_POINTS.USER_SIGNUP, params);
 
             console.log("response: ", response);
+            alert("Sign up succesful!")
+            navigate('/');
         } catch(error) {
             console.error(error);
         }
