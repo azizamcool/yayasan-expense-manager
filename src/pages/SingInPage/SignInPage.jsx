@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './SignInPage.css';
 import welcomeGuy from '../../assets/welcome-guy.png';
@@ -11,7 +11,8 @@ const SignInPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [rememberMe, setRememberMe] = useState(false);
+
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,8 +26,12 @@ const SignInPage = () => {
             const response = await ApiRequest(API_END_POINTS.USER_LOGIN, params);
 
             console.log("response: ", response);
+            localStorage.setItem('username', username);
+
+            navigate('/');
         } catch(error) {
             console.error(error);
+            return alert("Invalid username or password!");
         }
     };
 
