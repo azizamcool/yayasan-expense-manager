@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 // allow frontend to access this controller
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
     @Autowired
