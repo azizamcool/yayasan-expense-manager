@@ -17,7 +17,7 @@ public class Budget {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @Column(nullable = false)
@@ -28,6 +28,9 @@ public class Budget {
 
     @Column(nullable = false)
     private Date periodEnd;
+
+    @Column
+    private String description; // Optional field for a budget description
 
     @Column
     private Timestamp createdAt;
@@ -83,6 +86,14 @@ public class Budget {
 
     public void setPeriodEnd(Date periodEnd) {
         this.periodEnd = periodEnd;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Timestamp getCreatedAt() {
