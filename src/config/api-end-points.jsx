@@ -5,6 +5,8 @@ const API_END_POINTS = {
     USER_SIGNUP: `${API_URL}/register`,
     GET_EXPENSES: `${API_URL}/getExpense`,
     GET_BUDGETS: `${API_URL}/budgets`,
+    CREATE_BUDGET: `${API_URL}/budget`,
+    GET_CATEGORY: `${API_URL}/getUserCategory`,
 }
 
 export default API_END_POINTS
