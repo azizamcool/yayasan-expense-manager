@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Text, Tooltip } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+
 import Sidebar from '../../components/Sidebar';
 import ApiRequest from '../../config/api-request';
 import API_END_POINTS from '../../config/api-end-points';
+
+import './HomePage.css';
 
 const COLORS = ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6'];
 
@@ -64,7 +66,10 @@ const HomePage = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
     const [allExpenses, setAllExpenses] = useState(null);
+
     const [totalExpense, setTotalExpenses] = useState(null);
+    const [totalBudget, setTotalBudget] = useState(null);
+    const [balance, setBalance] = useState(null);
 
     const navigate = useNavigate();
 
@@ -109,6 +114,26 @@ const HomePage = () => {
         }
     }
 
+    const handleGetBudgets = async () => {
+        // get all budgets
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const budgets = await ApiRequest(API_END_POINTS.GET_BUDGETS, 'get', params);
+
+            let _totalBudget = 0;
+            budgets.map((b) => {
+                _totalBudget += b.amount;
+            })
+
+            setTotalBudget(_totalBudget);
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
     const getCurrentMonthAndYear = () => {
         const now = new Date();
         const monthNames = [
@@ -127,7 +152,15 @@ const HomePage = () => {
         }
 
         handleGetExpenses();
+        handleGetBudgets();
     }, []);
+
+    useEffect(() => {
+        if (totalExpense && totalBudget) {
+            const _balance = totalBudget - totalExpense;
+            setBalance(_balance);
+        }
+    }, [handleGetBudgets]);
 
     const renderExpenseItem = (allExpenses) => {
         const totalExpense = allExpenses.reduce((total, ex) => total + ex.value, 0);
@@ -167,7 +200,7 @@ const HomePage = () => {
                 </div>
                 <div className="header-item balance">
                     <h2>Balance</h2>
-                    <p>RM 1000</p>
+                    <p>RM {balance}</p>
                 </div>
             </div>
 
