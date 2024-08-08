@@ -23,9 +23,12 @@ public class CategoryController {
     //verify
     @PostMapping("/category")
     @ResponseBody
-    public String createCategory(@RequestParam String categoryName) {
+    public String createCategory(@RequestParam String categoryName, @RequestParam String username) {
+        User user = userService.findByUsername(username);
         Category category = new Category();
+
         category.setName(categoryName);
+        category.setUser(user);
         categoryService.save(category);
         return "Category " +category.getName() + " save!";
     }
@@ -37,10 +40,10 @@ public class CategoryController {
     }
 
     //verify but not i think this is not needed
-//    @GetMapping("/getUserCategory")
-//    public ResponseEntity<List<Category>> getUserCategory(@RequestParam String username) {
-//
-//        User user = userService.findByUsername(username);
-//        return ResponseEntity.ok(categoryService.getUserCategory(user));
-//    }
+    @GetMapping("/getUserCategory")
+    public ResponseEntity<List<Category>> getUserCategory(@RequestParam String username) {
+
+        User user = userService.findByUsername(username);
+        return ResponseEntity.ok(categoryService.getUserCategory(user));
+    }
 }
