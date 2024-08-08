@@ -30,7 +30,7 @@ const RecordPage = ({type}) => {
                 amount: amount,
             };
 
-            const response = await ApiRequest(API_END_POINTS.EXPENSE_AMOUNT, params);
+            const response = await ApiRequest(API_END_POINTS.GET_EXPENSES, params);
 
             if (response.success) {
                 localStorage.setItem('amount', amount);
