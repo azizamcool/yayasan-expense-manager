@@ -7,6 +7,7 @@ const API_END_POINTS = {
     GET_BUDGETS: `${API_URL}/budgets`,
     CREATE_BUDGET: `${API_URL}/budget`,
     GET_CATEGORY: `${API_URL}/getUserCategory`,
+    CREATE_CATEGORY: `${API_URL}/category`,
 }
 
 export default API_END_POINTS
