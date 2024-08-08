@@ -39,14 +39,4 @@ public class UserController {
         return ResponseEntity.status(401).body("Invalid username or password");
     }
 
-    @PostMapping("/expense")
-    @ResponseBody
-    public ResponseEntity<String> expenseAmount(@RequestParam String amount) {
-        Expense expense = new Expense();
-        if (amount != null) {
-            return ResponseEntity.ok("Successfully added " + expense.getAmount());
-        }
-        return ResponseEntity.status(401).body("Invalid input kah");
-    }
-
 }
