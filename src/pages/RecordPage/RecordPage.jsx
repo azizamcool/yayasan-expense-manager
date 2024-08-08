@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import Calendar from 'react-calendar';
 
 import './RecordPage.css';
 
@@ -41,6 +42,13 @@ const RecordPage = ({type}) => {
             console.error(error);
             return alert("Invalid input ka");
         }
+    };
+
+
+    const [value, setValue] = useState(new Date());  // Initialize with a Date object
+
+    const onChange = (newValue) => {
+        setValue(newValue);
     };
 
     return (
@@ -146,29 +154,32 @@ const RecordPage = ({type}) => {
                                 <h3>January 2024</h3>
                                 <span>&gt;</span>
                             </div>
-                            <div className="calendar-container">
+                            {/*<div className="calendar-container">*/}
 
 
-                                <div className="calendar">
-                                    <div className="days">
-                                        <div>Sun</div>
-                                        <div>Mon</div>
-                                        <div>Tue</div>
-                                        <div>Wed</div>
-                                        <div>Thu</div>
-                                        <div>Fri</div>
-                                        <div>Sat</div>
-                                    </div>
+                            {/*    <div className="calendar">*/}
+                            {/*        <div className="days">*/}
+                            {/*            <div>Sun</div>*/}
+                            {/*            <div>Mon</div>*/}
+                            {/*            <div>Tue</div>*/}
+                            {/*            <div>Wed</div>*/}
+                            {/*            <div>Thu</div>*/}
+                            {/*            <div>Fri</div>*/}
+                            {/*            <div>Sat</div>*/}
+                            {/*        </div>*/}
 
-                                    <div className="dates">
-                                        {/* Populate with date elements */}
-                                        {Array.from({length: 31}, (_, index) => (
-                                            <div key={index}>{index + 1}</div>
-                                        ))}
-                                    </div>
-                                </div>
+                            {/*        <div className="dates">*/}
+                            {/*            /!* Populate with date elements *!/*/}
+                            {/*            {Array.from({length: 31}, (_, index) => (*/}
+                            {/*                <div key={index}>{index + 1}</div>*/}
+                            {/*            ))}*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
 
 
+                            {/*</div>*/}
+                            <div>
+                                <Calendar onChange={onChange} value={value}/>
                             </div>
                             <div className="view-report">View report</div>
                         </div>
