@@ -4,6 +4,8 @@ import {useNavigate} from "react-router-dom";
 import './RecordPage.css';
 
 import Sidebar from '../../components/Sidebar';
+import ApiRequest from "../../config/api-request.jsx";
+import API_END_POINTS from "../../config/api-end-points.jsx";
 
 const RecordPage = ({type}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
@@ -15,6 +17,30 @@ const RecordPage = ({type}) => {
 
     const handleRecord = (route) => {
         navigate(route);
+    };
+
+    const [amount, setAmount] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const params = {
+                amount: amount,
+            };
+
+            const response = await ApiRequest(API_END_POINTS.EXPENSE_AMOUNT, params);
+
+            if (response.success) {
+                localStorage.setItem('amount', amount);
+                navigate('/');
+            } else {
+                throw new Error("Submission failed");
+            }
+        } catch(error) {
+            console.error(error);
+            return alert("Invalid input ka");
+        }
     };
 
     return (
@@ -43,64 +69,71 @@ const RecordPage = ({type}) => {
                             </button>
                         </div>
                         <div className="form-container-record">
-                            {type === 'expense' && (
-                                <>
-                                    <div className="form-group">
-                                        <label>Category</label>
-                                        <label>:</label>
-                                        <select>
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Account</label>
-                                        <label>:</label>
-                                        <select>
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Amount</label>
-                                        <label>:</label>
-                                        <input type="text"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Date</label>
-                                        <label>:</label>
-                                        <input type="date"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Note</label>
-                                        <label>:</label>
-                                        <textarea></textarea>
-                                    </div>
-                                    <div className="add-btn-container">
-                                        <button className="add-btn">Add Expense</button>
-                                    </div>
-                                </>
-                            )}
-                            {type === 'income' && (
-                                <>
-                                    <div className="form-group">
-                                        <label>Amount</label>
-                                        <label>:</label>
-                                        <input type="text"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Date</label>
-                                        <label>:</label>
-                                        <input type="date"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Note</label>
-                                        <label>:</label>
-                                        <textarea></textarea>
-                                    </div>
-                                    <div className="add-btn-container">
-                                        <button className="add-btn">Add Income</button>
-                                    </div>
-                                </>
-                            )}
+                            <form onSubmit={handleSubmit}>
+                                {type === 'expense' && (
+                                    <>
+                                        <div className="form-group">
+                                            <label>Category</label>
+                                            <label>:</label>
+                                            <select>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Account</label>
+                                            <label>:</label>
+                                            <select>
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="amount">Amount</label>
+                                            <label>:</label>
+                                            <input
+                                            type="amount"
+                                            id="amount"
+                                            value={amount}
+                                            onChange={(e) => setAmount(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Date</label>
+                                            <label>:</label>
+                                            <input type="date"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Note</label>
+                                            <label>:</label>
+                                            <textarea></textarea>
+                                        </div>
+                                        <div className="add-btn-container">
+                                            <button type="submit" className="add-btn">Add Expense</button>
+                                        </div>
+                                    </>
+                                )}
+                                {type === 'income' && (
+                                    <>
+                                        <div className="form-group">
+                                            <label>Amount</label>
+                                            <label>:</label>
+                                            <input type="text"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Date</label>
+                                            <label>:</label>
+                                            <input type="date"/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Note</label>
+                                            <label>:</label>
+                                            <textarea></textarea>
+                                        </div>
+                                        <div className="add-btn-container">
+                                            <button type="submit" className="add-btn">Add Income</button>
+                                        </div>
+                                    </>
+                                )}
+                            </form>
                         </div>
 
                     </div>
