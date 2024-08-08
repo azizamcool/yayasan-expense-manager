@@ -198,4 +198,24 @@
     font-family: 'Inria-Serif', sans-serif;
     font-size: 50px;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plus-button {
+    margin-left: 20px; /* Adjust as needed */
+    padding: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%; /* Make the button round */
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
 }
