@@ -23,7 +23,7 @@ const SignInPage = () => {
                 password: password,
             };
 
-            const response = await ApiRequest(API_END_POINTS.USER_LOGIN, params);
+            const response = await ApiRequest(API_END_POINTS.USER_LOGIN, 'post', params);
 
             console.log("response: ", response);
             localStorage.setItem('username', username);

@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Text, Tooltip } from 'recharts';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+
 import Sidebar from '../../components/Sidebar';
+import ApiRequest from '../../config/api-request';
+import API_END_POINTS from '../../config/api-end-points';
+
+import './HomePage.css';
 
 const COLORS = ['#3498db', '#2ecc71', '#f1c40f', '#e74c3c', '#9b59b6'];
 
@@ -61,27 +65,122 @@ const ExpenseItem = ({ name, amount, percentage }) => (
 const HomePage = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
+    const [allExpenses, setAllExpenses] = useState(null);
+
+    const [totalExpense, setTotalExpenses] = useState(null);
+    const [totalBudget, setTotalBudget] = useState(null);
+    const [balance, setBalance] = useState(null);
 
     const navigate = useNavigate();
-
-    const data = [
-        { name: 'Category 1', value: 500 },
-        { name: 'Category 2', value: 300 },
-        { name: 'Category 3', value: 100 },
-      ];
-    
-    const total = data.reduce((sum, item) => sum + item.value, 0);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    const handleGetExpenses = async () => {
+        // get expenses
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const expenses = await ApiRequest(API_END_POINTS.GET_EXPENSES, 'get', params);
+            
+            // let _totalExpense = 0;
+            // let _expenses = [];
+            // Group expenses by category and sum amounts
+            const groupedExpenses = expenses.reduce((acc, expense) => {
+                const categoryName = expense.category.name;
+                if (!acc[categoryName]) {
+                    acc[categoryName] = {
+                        name: categoryName,
+                        value: 0
+                    };
+                }
+
+                acc[categoryName].value += expense.amount;
+                return acc;
+            }, {});
+
+            // Transform the grouped object into an array
+            const _expenses = Object.values(groupedExpenses);
+            const _totalExpense = _expenses.reduce((total, expense) => total += expense.value, 0);
+
+            console.log(_expenses);
+            setTotalExpenses(_totalExpense);
+            setAllExpenses(_expenses);
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
+    const handleGetBudgets = async () => {
+        // get all budgets
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const budgets = await ApiRequest(API_END_POINTS.GET_BUDGETS, 'get', params);
+
+            let _totalBudget = 0;
+            budgets.map((b) => {
+                _totalBudget += b.amount;
+            })
+
+            setTotalBudget(_totalBudget);
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
+    const getCurrentMonthAndYear = () => {
+        const now = new Date();
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const month = monthNames[now.getMonth()];
+        const year = now.getFullYear();
+        return { month, year };
+    };
+
     useEffect(() => {
         // if not logged in, go to login page
         if (!localStorage.getItem('username')) {
-            navigate('/login');
+            return navigate('/login');
         }
+
+        handleGetExpenses();
+        handleGetBudgets();
     }, []);
+
+    useEffect(() => {
+        if (totalExpense && totalBudget) {
+            const _balance = totalBudget - totalExpense;
+            setBalance(_balance);
+        }
+    }, [handleGetBudgets]);
+
+    const renderExpenseItem = (allExpenses) => {
+        const totalExpense = allExpenses.reduce((total, ex) => total + ex.value, 0);
+
+        return (
+            <div className="expenses-list">
+                {allExpenses && allExpenses.map((ex) => {
+                    const percentage = ((ex.value / totalExpense) * 100).toFixed(2) + '%';
+                    return (
+                        <ExpenseItem
+                            key={ex.name} // Ensure each item has a unique key
+                            name={ex.name}
+                            amount={`RM ${ex.value}`}
+                            percentage={percentage}
+                        />
+                    );
+                })}
+            </div>
+        );
+    };
 
     return(
         <div className="wrapper">
@@ -93,7 +192,7 @@ const HomePage = () => {
                 </div>
                 <div className="header-item expense">
                     <h2>Expense</h2>
-                    <p>RM 2830</p>
+                    <p>RM {totalExpense}</p>
                 </div>
                 <div className="header-item income">
                     <h2>Income</h2>
@@ -101,7 +200,7 @@ const HomePage = () => {
                 </div>
                 <div className="header-item balance">
                     <h2>Balance</h2>
-                    <p>RM 1000</p>
+                    <p>RM {balance}</p>
                 </div>
             </div>
 
@@ -110,26 +209,31 @@ const HomePage = () => {
             <div className={`container ${isSidebarOpen ? 'blurred' : ''}`}>
                 <div className="home-left-container">
                     <div className="expenses-list">
-                        <ExpenseItem name="Rent & Mortgage" amount="RM 800" percentage="48%" />
-                        <ExpenseItem name="Groceries" amount="RM 350" percentage="32%" />
-                        <ExpenseItem name="Shopping" amount="RM 230" percentage="27%" />
-                        <ExpenseItem name="Restaurant" amount="RM 122" percentage="22%" />
-                        <ExpenseItem name="Credit" amount="RM 90" percentage="12%" />
+                    {   
+                        allExpenses &&
+                        renderExpenseItem(allExpenses)
+                    }
                     </div>
                 </div>
                 <div className="home-right-container">
                     <div className="spending-chart">
                         <h3>SPENDING FOR</h3>
-                        <div className='month-date'>&lt; January 2024 &gt;</div>
+                        <div className='month-date'>&lt; {getCurrentMonthAndYear().month} {getCurrentMonthAndYear().year} &gt;</div>
                         <div className="chart">
-                            <MonthlyDonutChart
-                                data={data}
-                                total={total}
-                                month="January"
-                                year="2024"
-                            />
+                            {
+                                allExpenses &&
+                                <MonthlyDonutChart
+                                    data={allExpenses}
+                                    month="January"
+                                    year="2024"
+                                />
+                            }
                         </div>
-                        <div className='chart-footer-text'>Total RM 2830</div>
+                        <div className='chart-footer-text'>
+                            <div>Total RM {totalExpense}</div>
+                            <button className="plus-button">+</button> {/* Add your button here */}
+                        </div>
+                        
                     </div>
                 </div>
             </div>

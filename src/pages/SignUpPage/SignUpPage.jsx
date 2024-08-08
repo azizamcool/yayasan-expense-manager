@@ -28,7 +28,7 @@ const SignUpPage = () => {
                 password: password,
             };
 
-            const response = await ApiRequest(API_END_POINTS.USER_SIGNUP, params);
+            const response = await ApiRequest(API_END_POINTS.USER_SIGNUP, 'post', params);
 
             console.log("response: ", response);
             alert("Sign up succesful!")

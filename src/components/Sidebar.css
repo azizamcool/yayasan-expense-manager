@@ -23,6 +23,7 @@
 .sidebar nav ul li {
     padding: 30px 30px;
     background-color: #EDEAD2;
+    transition: background-color 0.25s ease;
 }
   
 .sidebar nav ul li a {
@@ -46,6 +47,11 @@
 
 .sidebar nav ul li.active-nav {
     background-color: rgba(111, 156, 123, 0.68);
+}
+
+.sidebar nav ul li:hover {
+    background-color: #6F9C7B; /* Darker green for hover */
+    cursor: pointer;
 }
 
 .user-profile {
