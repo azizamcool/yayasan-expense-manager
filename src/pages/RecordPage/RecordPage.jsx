@@ -34,7 +34,7 @@ const RecordPage = ({type}) => {
 
             if (response.success) {
                 localStorage.setItem('amount', amount);
-                navigate('/');
+                username: localStorage.getItem('username')
             } else {
                 throw new Error("Submission failed");
             }
@@ -98,8 +98,9 @@ const RecordPage = ({type}) => {
                                             <label htmlFor="amount">Amount</label>
                                             <label>:</label>
                                             <input
-                                            type="amount"
+                                            type="number"
                                             id="amount"
+                                            name="amount"
                                             value={amount}
                                             onChange={(e) => setAmount(e.target.value)}
                                             />
