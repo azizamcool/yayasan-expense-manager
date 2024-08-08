@@ -14,6 +14,11 @@ const BudgetPage = () => {
     const [allBudgets, setAllBudgets] = useState(null);
     const [allExpenses, setAllExpenses] = useState(null);
 
+    const [totalExpense, setTotalExpense] = useState(null);
+    const [totalBudget, setTotalBudget] = useState(null);
+
+    const [reload, setReload] = useState(false);
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -34,7 +39,8 @@ const BudgetPage = () => {
             };
 
             const response = await ApiRequest(API_END_POINTS.CREATE_BUDGET, 'post', params);
-            console.log("Response: ", response)            ;
+            console.log("Response: ", response);
+            setReload(!reload);
         } catch(error) {
             console.error(error);
         }
@@ -63,6 +69,14 @@ const BudgetPage = () => {
 
             const budgets = await ApiRequest(API_END_POINTS.GET_BUDGETS, 'get', params);
             setAllBudgets(budgets);
+            console.log(budgets);
+
+            let _totalBudget = 0;
+            budgets.map((b) => {
+                _totalBudget += b.amount;
+            })
+
+            setTotalBudget(_totalBudget);
         } catch(error) {
             console.error(error);
         }
@@ -98,6 +112,7 @@ const BudgetPage = () => {
             const _totalExpense = _expenses.reduce((total, expense) => total += expense.value, 0);
 
             setAllExpenses(_expenses);
+            setTotalExpense(_totalExpense);
         } catch(error) {
             console.error(error);
         }
@@ -133,11 +148,17 @@ const BudgetPage = () => {
         );
     }
 
+    // useEffect(() => {
+    //     handleGetCategory();
+    //     handleGetExpenses();
+    //     handleGetBudgets();
+    // }, []);
+
     useEffect(() => {
         handleGetCategory();
         handleGetExpenses();
         handleGetBudgets();
-    }, []);
+    }, [reload]);
 
     return(
         <div className="wrapper">
@@ -180,7 +201,7 @@ const BudgetPage = () => {
                 <div className='budget-right-container'>
                     <div className='budget-container-title'>
                             <h2>This month</h2>
-                            <p className='expense-progress'>RM 100 / RM 10000</p>
+                            <p className='expense-progress'>RM {totalExpense} / RM {totalBudget}</p>
                     </div>
                     {
                         allExpenses && allBudgets &&
