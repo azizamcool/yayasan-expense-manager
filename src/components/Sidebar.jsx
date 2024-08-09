@@ -8,6 +8,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
     const handleLogout = () => {
         localStorage.removeItem('username');
+        localStorage.removeItem('currency');
     }
     const handleRecord = (route) => {
         navigate("/record/expense");

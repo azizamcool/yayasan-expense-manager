@@ -34,6 +34,7 @@ const RecordPage = ({type}) => {
 
             const categories = await ApiRequest(API_END_POINTS.GET_CATEGORY, 'get', params);
             setAllCategories(categories)
+            setSelectedCategory(categories[0].id);
 
         } catch(error) {
             console.error(error);
@@ -57,6 +58,10 @@ const RecordPage = ({type}) => {
                 imageUrl: filePreview,
                 username: localStorage.getItem('username')
             };
+
+            console.log(allCategories)
+
+            console.log(selectedCategory);
 
             const response = await ApiRequest(API_END_POINTS.CREATE_EXPENSES,'post', params);
 
@@ -112,14 +117,14 @@ const RecordPage = ({type}) => {
                         <div className="form-button">
                             <button className="expense-btn" onClick={() => handleRecord('/record/expense')}>Expense
                             </button>
-                            <button className="income-btn" onClick={() => handleRecord('/record/income')}>Income
-                            </button>
+                            {/* <button className="income-btn" onClick={() => handleRecord('/record/income')}>Income
+                            </button> */}
                         </div>
                         <div className="form-container-record">
                             <form onSubmit={handleSubmit}>
                                 {type === 'expense' && (
                                     <>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label className="form-label">Category</label>
                                             <label className="colon-label">:</label>
                                             <select id="category" name="category"
@@ -133,7 +138,7 @@ const RecordPage = ({type}) => {
                                                 }
                                             </select>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label htmlFor="amount" className="form-label">Amount</label>
                                             <label className="colon-label">:</label>
                                             <input
@@ -144,7 +149,7 @@ const RecordPage = ({type}) => {
                                             onChange={(e) => setAmount(e.target.value)}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label className="form-label">Date</label>
                                             <label className="colon-label">:</label>
                                             <input type="date"
@@ -153,7 +158,7 @@ const RecordPage = ({type}) => {
                                                    value={expenseDate}
                                                    onChange={(e) => setExpenseDate(e.target.value)}/>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label className="form-label">Note</label>
                                             <label className="colon-label">:</label>
                                             <div className="textarea-wrapper">
@@ -173,7 +178,7 @@ const RecordPage = ({type}) => {
                                 )}
                                 {type === 'income' && (
                                     <>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label htmlFor="amount" className="form-label">Amount</label>
                                             <label className="colon-label">:</label>
                                             <input
@@ -184,12 +189,12 @@ const RecordPage = ({type}) => {
                                                 onChange={(e) => setAmount(e.target.value)}
                                             />
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label className="form-label">Date</label>
                                             <label className="colon-label">:</label>
                                             <input type="date"/>
                                         </div>
-                                        <div className="form-group">
+                                        <div className="form-group-expense">
                                             <label className="form-label">Note</label>
                                             <label className="colon-label">:</label>
                                             <div className="textarea-wrapper">
@@ -208,7 +213,7 @@ const RecordPage = ({type}) => {
                     </div>
 
 
-                    <div className="record-right-container">
+                    {/* <div className="record-right-container">
                         <div className="add-file">
                             <div className="upload-container">
 
@@ -231,7 +236,7 @@ const RecordPage = ({type}) => {
                             </div>
                         </div>
 
-                    </div>
+                    </div> */}
 
                 </div>
 

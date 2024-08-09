@@ -86,6 +86,7 @@ const CurrencyModal = ({ isOpen, onClose, currentCurrency, onChangeCurrency, exc
                     <div className="form-group">
                         <label htmlFor="newCurrency">New Currency:</label>
                         <select
+                            className='currency-selector'
                             id="newCurrency"
                             value={newCurrency}
                             onChange={(e) => setNewCurrency(e.target.value)}
@@ -288,10 +289,10 @@ const HomePage = () => {
                         <h2>Expense</h2>
                         <p>{currentCurrency} {Number(totalExpense).toFixed(2)}</p>
                     </div>
-                    <div className="header-item income">
+                    {/* <div className="header-item income">
                         <h2>Income</h2>
                         <p>{currentCurrency} 3830</p>
-                    </div>
+                    </div> */}
                     <div className="header-item balance">
                         <h2>Balance</h2>
                         <p>{currentCurrency} {Number(balance).toFixed(2)}</p>

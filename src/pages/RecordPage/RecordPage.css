@@ -50,6 +50,7 @@
     display: flex;
     flex:1;
     padding-left: 50px;
+    padding-right: 50px;
     padding-top: 20px;
     transition: filter 0.3s ease-in-out;
 }
@@ -114,7 +115,7 @@
     color: white;
 }
 
-.form-group {
+.form-group-expense {
     display: grid;
     grid-template-columns: 150px 20px 1fr;
     align-items: center;
@@ -129,7 +130,7 @@
 
 }
 
-.form-group select {
+.form-group-expense select {
     flex: 1;
     font-size: 20px;
     margin-right:30px;
@@ -140,7 +141,7 @@
     background-color: #EDEAD2;
 }
 
-.form-group input{
+.form-group-expense input{
     flex: 1;
     font-size: 20px;
     border: 1px solid #ccc;
