@@ -28,16 +28,12 @@ const RecordPage = ({type}) => {
         try {
             const params = {
                 amount: amount,
+                username: localStorage.getItem('username')
             };
 
-            const response = await ApiRequest(API_END_POINTS.GET_EXPENSES, params);
+            const response = await ApiRequest(API_END_POINTS.CREATE_EXPENSES,'post', params);
 
-            if (response.success) {
-                localStorage.setItem('amount', amount);
-                username: localStorage.getItem('username')
-            } else {
-                throw new Error("Submission failed");
-            }
+            return alert("Expense created successfully!");
         } catch(error) {
             console.error(error);
             return alert("Invalid input ka");
@@ -87,13 +83,13 @@ const RecordPage = ({type}) => {
                                                 <option value=""></option>
                                             </select>
                                         </div>
-                                        <div className="form-group">
-                                            <label className="form-label">Account</label>
-                                            <label className="colon-label">:</label>
-                                            <select>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
+                                        {/*<div className="form-group">*/}
+                                        {/*    <label className="form-label">Account</label>*/}
+                                        {/*    <label className="colon-label">:</label>*/}
+                                        {/*    <select>*/}
+                                        {/*        <option value=""></option>*/}
+                                        {/*    </select>*/}
+                                        {/*</div>*/}
                                         <div className="form-group">
                                             <label htmlFor="amount" className="form-label">Amount</label>
                                             <label className="colon-label">:</label>

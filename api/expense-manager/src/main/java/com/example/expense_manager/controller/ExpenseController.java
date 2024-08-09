@@ -29,23 +29,23 @@ public class ExpenseController {
     //Verify
     @PostMapping("/expense")
     @ResponseBody
-    public String createExpense(@RequestParam String username, @RequestParam BigDecimal amount,
-                                @RequestParam Long categoryId,  @RequestParam(required = false) String notes,
-                                @RequestParam(required = false) String imageUrl) {
+    public String createExpense(@RequestParam String username, @RequestParam BigDecimal amount) {
 
         User user = userService.findByUsername(username);
-        Category category = categoryService.findById(categoryId);
+//        Category category = categoryService.findById(categoryId);
 
         Expense expense = new Expense();
         expense.setUser(user);
         expense.setAmount(amount);
         expense.setCurrency("MYR");
-        expense.setCategory(category);
-        expense.setNotes(notes);
-        expense.setImageUrl(imageUrl);
+//        expense.setCategory(category);
+//        expense.setNotes(notes);
+//        expense.setImageUrl(imageUrl);
+        System.out.println("Username: " + username);
+        System.out.println("Amount: " + amount);
 
         expenseService.save(expense);
-        return "Expense " +expense.getCategory().getName() + " , RM : " + expense.getAmount() + " save!";
+        return "Expense RM : " + expense.getAmount() + " save!";
     }
 
     //verify
