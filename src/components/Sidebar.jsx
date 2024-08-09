@@ -9,6 +9,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     const handleLogout = () => {
         localStorage.removeItem('username');
     }
+    const handleRecord = (route) => {
+        navigate("/record/expense");
+    };
 
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -27,9 +30,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     <li className={location.pathname === '/' ? 'active-nav' : ''}>
                         <Link to="/">Homepage</Link>
                     </li>
+                    <li className={location.pathname === '/record/expense' ? 'active-nav' : ''}onClick={handleRecord}>
+                        <Link to="/record/expense">Record</Link>
+                    </li>
                     {/* <li className={location.pathname === '/statistic' ? 'active-nav' : ''}>
                         <Link to="/statistic">Statistics</Link>
-                    </li> */}
+                    </li> */} 
                     <li className={location.pathname === '/budget' ? 'active-nav' : ''}>
                         <Link to="/budget">Budget</Link>
                     </li>

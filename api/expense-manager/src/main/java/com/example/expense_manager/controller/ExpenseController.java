@@ -7,10 +7,13 @@ import com.example.expense_manager.service.CategoryService;
 import com.example.expense_manager.service.ExpenseService;
 import com.example.expense_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.WeakHashMap;
 
@@ -30,7 +33,8 @@ public class ExpenseController {
     @PostMapping("/expense")
     @ResponseBody
     public String createExpense(@RequestParam String username, @RequestParam BigDecimal amount,
-                                @RequestParam Long categoryId,  @RequestParam(required = false) String notes,
+                                @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expenseDate,
+                                @RequestParam Long categoryId, @RequestParam(required = false) String notes,
                                 @RequestParam(required = false) String imageUrl) {
 
         User user = userService.findByUsername(username);
@@ -40,12 +44,13 @@ public class ExpenseController {
         expense.setUser(user);
         expense.setAmount(amount);
         expense.setCurrency("MYR");
+        expense.setExpenseDate(expenseDate);
         expense.setCategory(category);
         expense.setNotes(notes);
         expense.setImageUrl(imageUrl);
 
         expenseService.save(expense);
-        return "Expense " +expense.getCategory().getName() + " , RM : " + expense.getAmount() + " save!";
+        return "Expense RM : " + expense.getAmount() + " save!";
     }
 
     //verify

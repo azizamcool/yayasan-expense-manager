@@ -271,6 +271,10 @@ const HomePage = () => {
         );
     };
 
+    const handleRecord = (route) => {
+        navigate("/record/expense");
+    };
+
     return(
         <div className="wrapper">
             <div className={`outer-header ${isSidebarOpen ? 'blurred' : ''}`}>
@@ -326,8 +330,11 @@ const HomePage = () => {
                         </div>
                         <div className='chart-footer-text'>
                             <div>Total {currentCurrency} {Number(totalExpense).toFixed(2)}</div>
-                            <button className="plus-button">+</button> {/* Add your button here */}
+                            <button className="plus-button"  onClick={handleRecord} >+</button> {/* Add your
+                             button here */}
+
                         </div>
+                        
                     </div>
                 </div>
             </div>

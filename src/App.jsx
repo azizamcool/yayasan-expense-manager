@@ -9,6 +9,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage'
 import HomePage from './pages/HomePage/HomePage';
 import BudgetPage from './pages/BudgetPage/BudgetPage';
 import CategoryPage from './pages/CategoryPage/CategoryPage';
+import RecordPage from "./pages/RecordPage/RecordPage.jsx";
 
 const URL = 'http://localhost:8080/users';
 
@@ -20,6 +21,9 @@ const App = () => {
                 <Route path="/signup" element={<SignUpPage />} />
                 <Route path="/budget" element={<BudgetPage />} />
                 <Route path="/category" element={<CategoryPage />} />
+
+                <Route path="/record/expense" element={<RecordPage type="expense" />} />
+                <Route path="/record/income" element={<RecordPage type="income" />} />
                 <Route path='/' element={<HomePage />} />
             </Routes>
         </BrowserRouter>

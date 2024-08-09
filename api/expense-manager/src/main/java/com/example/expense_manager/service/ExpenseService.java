@@ -22,10 +22,11 @@ public class ExpenseService {
     public Expense save(Expense expense) {
         LocalDateTime now = LocalDateTime.now();
 
-        String str="2015-03-31";
-        Date date=Date.valueOf(str);
+//        String str="2015-03-31";
+//        Date date=Date.valueOf(str);
+//
+//        expense.setExpenseDate(date);
 
-        expense.setExpenseDate(date);
         expense.setCreatedAt(Timestamp.valueOf(now));
         expense.setUpdatedAt(Timestamp.valueOf(now));
         return expenseRepository.save(expense);
