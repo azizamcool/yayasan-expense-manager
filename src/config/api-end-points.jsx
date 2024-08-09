@@ -8,6 +8,8 @@ const API_END_POINTS = {
     GET_BUDGETS: `${API_URL}/budgets`,
     CREATE_BUDGET: `${API_URL}/budget`,
     GET_CATEGORY: `${API_URL}/getUserCategory`,
+    CREATE_INCOME: `${API_URL}/income`,
+    GET_INCOME: `${API_URL}/getIncome`,
     CREATE_CATEGORY: `${API_URL}/category`,
     UPDATE_CURRENCY: `${API_URL}/updateCurrency`,
     APPLY_EXCHANGE_RATE_EXPENSE: `${API_URL}/updateExpensesWithExchangeRate`,
