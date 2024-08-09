@@ -34,17 +34,17 @@ public class ExpenseController {
     @ResponseBody
     public String createExpense(@RequestParam String username, @RequestParam BigDecimal amount,
                                 @RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expenseDate,
-                                @RequestParam(required = false) String notes) {
+                                @RequestParam Long categoryId, @RequestParam(required = false) String notes) {
 
         User user = userService.findByUsername(username);
-//        Category category = categoryService.findById(categoryId);
+        Category category = categoryService.findById(categoryId);
 
         Expense expense = new Expense();
         expense.setUser(user);
         expense.setAmount(amount);
         expense.setCurrency("MYR");
         expense.setExpenseDate(expenseDate);
-//        expense.setCategory(category);
+        expense.setCategory(category);
         expense.setNotes(notes);
 //        expense.setImageUrl(imageUrl);
 

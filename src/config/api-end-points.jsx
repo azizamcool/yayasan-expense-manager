@@ -7,7 +7,7 @@ const API_END_POINTS = {
     CREATE_EXPENSES: `${API_URL}/expense`,
     GET_BUDGETS: `${API_URL}/budgets`,
     CREATE_BUDGET: `${API_URL}/budget`,
-    GET_CATEGORY: `${API_URL}/getCategory`,
+    GET_CATEGORY: `${API_URL}/getUserCategory`,
     CREATE_CATEGORY: `${API_URL}/category`,
 }
 
