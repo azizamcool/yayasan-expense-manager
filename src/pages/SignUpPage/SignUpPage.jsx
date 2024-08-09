@@ -30,7 +30,6 @@ const SignUpPage = () => {
 
             const response = await ApiRequest(API_END_POINTS.USER_SIGNUP, 'post', params);
 
-            console.log("response: ", response);
             alert("Sign up succesful!")
             navigate('/');
         } catch(error) {

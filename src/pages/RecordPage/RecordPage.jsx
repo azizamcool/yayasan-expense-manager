@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import Calendar from 'react-calendar';
 
 import './RecordPage.css';
 
@@ -60,12 +59,14 @@ const RecordPage = ({type}) => {
                     notes: notes,
                     expenseDate: expenseDate,
                     categoryId: selectedCategory,
-                    imageUrl: filePreview,
+                    imageUrl: '',
                     username: localStorage.getItem('username')
                 };
                 response = await ApiRequest(API_END_POINTS.CREATE_EXPENSES, 'post', params);
-                alert("Expense created successfully!");
 
+                setAmount('');
+                setExpenseDate('');
+                return alert("Expense created successfully!");
             } else if (type === 'income') {
                 params = {
                     amount: amount,
@@ -74,37 +75,17 @@ const RecordPage = ({type}) => {
                     username: localStorage.getItem('username')
                 };
 
-                console.log(params.username);
                 response = await ApiRequest(API_END_POINTS.CREATE_INCOME, 'post', params);
 
-                alert("Income created successfully!");
-
+                setAmount('');
+                setIncomeDate('');
+                return alert("Income created successfully!");
             }
         } catch(error) {
             console.error(error);
             return alert("Invalid input");
         }
     };
-
-
-    const [value, setValue] = useState(new Date());  // Initialize with a Date object
-
-    const onChange = (newValue) => {
-        setValue(newValue);
-    };
-
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [filePreview, setFilePreview] = useState(null);
-
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setSelectedFile(file);
-
-        // Create a preview of the uploaded image
-        const fileURL = URL.createObjectURL(file);
-        setFilePreview(fileURL);
-    };
-
 
     return (
         <div className="wrapper">
@@ -234,32 +215,6 @@ const RecordPage = ({type}) => {
 
 
                     </div>
-
-
-                    {/* <div className="record-right-container">
-                        <div className="add-file">
-                            <div className="upload-container">
-
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                    style={{display: 'none'}}
-                                    id="file-upload"
-                                />
-
-                                <label htmlFor="file-upload" className="add-file-btn">
-                                    Upload File
-                                </label>
-                                {filePreview && (
-                                    <div className="image-wrapper">
-                                        <img src={filePreview} alt="Preview" className="image-preview"/>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                    </div> */}
 
                 </div>
 

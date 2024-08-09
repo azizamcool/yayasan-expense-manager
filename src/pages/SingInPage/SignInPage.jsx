@@ -25,7 +25,6 @@ const SignInPage = () => {
 
             const response = await ApiRequest(API_END_POINTS.USER_LOGIN, 'post', params);
 
-            console.log("response: ", response);
             localStorage.setItem('username', username);
             localStorage.setItem('currency', response.split(" ")[1]);
 

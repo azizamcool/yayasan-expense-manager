@@ -41,7 +41,7 @@ const BudgetPage = () => {
             };
 
             const response = await ApiRequest(API_END_POINTS.CREATE_BUDGET, 'post', params);
-            console.log("Response: ", response);
+            event.target.amount.value = '';
             setReload(!reload);
         } catch(error) {
             console.error(error);
@@ -71,7 +71,6 @@ const BudgetPage = () => {
 
             const budgets = await ApiRequest(API_END_POINTS.GET_BUDGETS, 'get', params);
             setAllBudgets(budgets);
-            console.log(budgets);
 
             let _totalBudget = 0;
             budgets.map((b) => {
@@ -93,9 +92,6 @@ const BudgetPage = () => {
 
             const expenses = await ApiRequest(API_END_POINTS.GET_EXPENSES, 'get', params);
             
-            // let _totalExpense = 0;
-            // let _expenses = [];
-            // Group expenses by category and sum amounts
             const groupedExpenses = expenses.reduce((acc, expense) => {
                 const categoryName = expense.category.name;
                 if (!acc[categoryName]) {
@@ -149,13 +145,7 @@ const BudgetPage = () => {
             </div>
         );
     }
-
-    // useEffect(() => {
-    //     handleGetCategory();
-    //     handleGetExpenses();
-    //     handleGetBudgets();
-    // }, []);
-
+    
     useEffect(() => {
         handleGetCategory();
         handleGetExpenses();

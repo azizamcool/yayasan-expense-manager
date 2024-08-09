@@ -1,8 +1,10 @@
 package com.example.expense_manager.controller;
 
 import com.example.expense_manager.entity.Expense;
+import com.example.expense_manager.entity.Income;
 import com.example.expense_manager.entity.User;
 import com.example.expense_manager.service.ExpenseService;
+import com.example.expense_manager.service.IncomeService;
 import com.example.expense_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +20,15 @@ public class UserController {
     @Autowired
     private ExpenseService expenseService;
 
-    //kena tambah user dan setup currency?
+    @Autowired
+    private IncomeService incomeService;
+
     @PostMapping("/register")
     @ResponseBody
     public String registerUser(@RequestParam String username, @RequestParam String password,
                                @RequestParam(required = false) String email) {
-        //}, @RequestParam(required = false){
-        //   String preferredCurrency) {
+        
         User user = new User();
-        //user.setName(name);
         user.setUsername(username);
         user.setPasswordHash(password);
         user.setEmail(email);
@@ -49,6 +51,7 @@ public class UserController {
     public ResponseEntity<String> setCurrency(@RequestParam String username, @RequestParam String currency) {
         User user = userService.findByUsername(username);
         List<Expense> expenses = expenseService.getUserExpense(user);
+        List<Income> incomes = incomeService.getUserIncome(user);
 
         if (user != null) {
             user.setPreferredCurrency(currency);
@@ -58,6 +61,13 @@ public class UserController {
                 for (Expense expense : expenses) {
                     expense.setCurrency((currency));
                     expenseService.save(expense);
+                }
+            }
+
+            if (incomes != null) {
+                for (Income income : incomes) {
+                    income.setCurrency((currency));
+                    incomeService.save(income);
                 }
             }
 
