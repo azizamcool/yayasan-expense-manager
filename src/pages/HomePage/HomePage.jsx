@@ -182,6 +182,10 @@ const HomePage = () => {
         );
     };
 
+    const handleRecord = (route) => {
+        navigate("/record/expense");
+    };
+
     return(
         <div className="wrapper">
             <div className={`header ${isSidebarOpen ? 'blurred' : ''}`}>
@@ -231,9 +235,11 @@ const HomePage = () => {
                         </div>
                         <div className='chart-footer-text'>
                             <div>Total RM {totalExpense}</div>
-                            <button className="plus-button">+</button> {/* Add your button here */}
+                            <button className="plus-button"  onClick={handleRecord} >+</button> {/* Add your
+                             button here */}
+
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

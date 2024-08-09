@@ -54,6 +54,7 @@ const RecordPage = ({type}) => {
                 notes: notes,
                 expenseDate: expenseDate,
                 categoryId: selectedCategory,
+                imageUrl: filePreview,
                 username: localStorage.getItem('username')
             };
 
@@ -62,7 +63,7 @@ const RecordPage = ({type}) => {
             return alert("Expense created successfully!");
         } catch(error) {
             console.error(error);
-            return alert("Invalid input ka");
+            return alert("Invalid input");
         }
     };
 
@@ -72,6 +73,19 @@ const RecordPage = ({type}) => {
     const onChange = (newValue) => {
         setValue(newValue);
     };
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [filePreview, setFilePreview] = useState(null);
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        setSelectedFile(file);
+
+        // Create a preview of the uploaded image
+        const fileURL = URL.createObjectURL(file);
+        setFilePreview(fileURL);
+    };
+
 
     return (
         <div className="wrapper">
@@ -88,10 +102,13 @@ const RecordPage = ({type}) => {
 
             <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar}/>
 
+
             <div className={`content-record ${isSidebarOpen ? 'blurred' : ''}`}>
+
                 <div className="content-record">
 
                     <div className="record-left-container">
+
                         <div className="form-button">
                             <button className="expense-btn" onClick={() => handleRecord('/record/expense')}>Expense
                             </button>
@@ -116,13 +133,6 @@ const RecordPage = ({type}) => {
                                                 }
                                             </select>
                                         </div>
-                                        {/*<div className="form-group">*/}
-                                        {/*    <label className="form-label">Account</label>*/}
-                                        {/*    <label className="colon-label">:</label>*/}
-                                        {/*    <select>*/}
-                                        {/*        <option value=""></option>*/}
-                                        {/*    </select>*/}
-                                        {/*</div>*/}
                                         <div className="form-group">
                                             <label htmlFor="amount" className="form-label">Amount</label>
                                             <label className="colon-label">:</label>
@@ -153,9 +163,7 @@ const RecordPage = ({type}) => {
                                                     value={notes}
                                                     onChange={(e) => setNotes(e.target.value)}
                                                 ></textarea>
-                                                <div className="add-btn-container">
-                                                    <button type="button" className="add-file-button">Upload File</button>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <div className="add-btn-container">
@@ -186,10 +194,6 @@ const RecordPage = ({type}) => {
                                             <label className="colon-label">:</label>
                                             <div className="textarea-wrapper">
                                                 <textarea></textarea>
-                                                <div className="add-btn-container">
-                                                    <button type="button" className="add-file-button">Upload File
-                                                    </button>
-                                                </div>
                                             </div>
                                         </div>
                                         <div className="add-btn-container">
@@ -200,44 +204,31 @@ const RecordPage = ({type}) => {
                             </form>
                         </div>
 
+
                     </div>
 
 
                     <div className="record-right-container">
-                        <div className="calendar-container-record">
-                            <div className="calendar-header">
-                                <span>&lt;</span>
-                                <h3>January 2024</h3>
-                                <span>&gt;</span>
+                        <div className="add-file">
+                            <div className="upload-container">
+
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFileChange}
+                                    style={{display: 'none'}}
+                                    id="file-upload"
+                                />
+
+                                <label htmlFor="file-upload" className="add-file-btn">
+                                    Upload File
+                                </label>
+                                {filePreview && (
+                                    <div className="image-wrapper">
+                                        <img src={filePreview} alt="Preview" className="image-preview"/>
+                                    </div>
+                                )}
                             </div>
-                            {/*<div className="calendar-container">*/}
-
-
-                            {/*    <div className="calendar">*/}
-                            {/*        <div className="days">*/}
-                            {/*            <div>Sun</div>*/}
-                            {/*            <div>Mon</div>*/}
-                            {/*            <div>Tue</div>*/}
-                            {/*            <div>Wed</div>*/}
-                            {/*            <div>Thu</div>*/}
-                            {/*            <div>Fri</div>*/}
-                            {/*            <div>Sat</div>*/}
-                            {/*        </div>*/}
-
-                            {/*        <div className="dates">*/}
-                            {/*            /!* Populate with date elements *!/*/}
-                            {/*            {Array.from({length: 31}, (_, index) => (*/}
-                            {/*                <div key={index}>{index + 1}</div>*/}
-                            {/*            ))}*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-
-
-                            {/*</div>*/}
-                            <div>
-                                <Calendar onChange={onChange} value={value}/>
-                            </div>
-                            <div className="view-report">View report</div>
                         </div>
 
                     </div>
