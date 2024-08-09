@@ -25,6 +25,7 @@ const RecordPage = ({type}) => {
     const [expenseDate, setExpenseDate] = useState('');
     const [allCategories, setAllCategories] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [incomeDate, setIncomeDate] = useState('');
 
     const handleGetCategory = async () => {
         try {
@@ -50,22 +51,35 @@ const RecordPage = ({type}) => {
         e.preventDefault();
 
         try {
-            const params = {
-                amount: amount,
-                notes: notes,
-                expenseDate: expenseDate,
-                categoryId: selectedCategory,
-                imageUrl: filePreview,
-                username: localStorage.getItem('username')
-            };
+            let params;
+            let response;
 
-            console.log(allCategories)
+            if (type === 'expense') {
+                params = {
+                    amount: amount,
+                    notes: notes,
+                    expenseDate: expenseDate,
+                    categoryId: selectedCategory,
+                    imageUrl: filePreview,
+                    username: localStorage.getItem('username')
+                };
+                response = await ApiRequest(API_END_POINTS.CREATE_EXPENSES, 'post', params);
+                alert("Expense created successfully!");
 
-            console.log(selectedCategory);
+            } else if (type === 'income') {
+                params = {
+                    amount: amount,
+                    notes: notes,
+                    incomeDate: incomeDate,
+                    username: localStorage.getItem('username')
+                };
 
-            const response = await ApiRequest(API_END_POINTS.CREATE_EXPENSES,'post', params);
+                console.log(params.username);
+                response = await ApiRequest(API_END_POINTS.CREATE_INCOME, 'post', params);
 
-            return alert("Expense created successfully!");
+                alert("Income created successfully!");
+
+            }
         } catch(error) {
             console.error(error);
             return alert("Invalid input");
@@ -117,8 +131,8 @@ const RecordPage = ({type}) => {
                         <div className="form-button">
                             <button className="expense-btn" onClick={() => handleRecord('/record/expense')}>Expense
                             </button>
-                            {/* <button className="income-btn" onClick={() => handleRecord('/record/income')}>Income
-                            </button> */}
+                            <button className="income-btn" onClick={() => handleRecord('/record/income')}>Income
+                            </button>
                         </div>
                         <div className="form-container-record">
                             <form onSubmit={handleSubmit}>
@@ -192,13 +206,22 @@ const RecordPage = ({type}) => {
                                         <div className="form-group-expense">
                                             <label className="form-label">Date</label>
                                             <label className="colon-label">:</label>
-                                            <input type="date"/>
+                                            <input type="date"
+                                                   id="incomeDate"
+                                                   name="incomeDate"
+                                                   value={incomeDate}
+                                                   onChange={(e) => setIncomeDate(e.target.value)}/>
                                         </div>
                                         <div className="form-group-expense">
                                             <label className="form-label">Note</label>
                                             <label className="colon-label">:</label>
                                             <div className="textarea-wrapper">
-                                                <textarea></textarea>
+                                                <textarea
+                                                    id="notes"
+                                                    name="notes"
+                                                    value={notes}
+                                                    onChange={(e) => setNotes(e.target.value)}
+                                                ></textarea>
                                             </div>
                                         </div>
                                         <div className="add-btn-container">
