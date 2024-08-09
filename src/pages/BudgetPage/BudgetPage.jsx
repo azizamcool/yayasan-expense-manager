@@ -132,7 +132,7 @@ const BudgetPage = () => {
                     <div key={budget.category + index} className='progress-bar-container'>
                         <div className='progress-bar-title'>
                             <h3>{budget.category}</h3>
-                            <h3>{currentCurrency} {budget.expenses} / {currentCurrency} {budget.budget}</h3>
+                            <h3>{currentCurrency} {Number(budget.expenses).toFixed(2)} / {currentCurrency} {Number(budget.budget).toFixed(2)}</h3>
                         </div>
                         <div className='progress-bar'>
                             <div 

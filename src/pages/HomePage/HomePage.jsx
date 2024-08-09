@@ -44,7 +44,6 @@ const MonthlyDonutChart = ({ data, total, month, year }) => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                     </Pie>
-                    <Tooltip/>
                 </PieChart>
             </ResponsiveContainer>
         </div>
@@ -110,7 +109,6 @@ const HomePage = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
     const [allExpenses, setAllExpenses] = useState(null);
-    const [allIncomes, setAllIncomes] = useState(null);
 
     const [totalExpense, setTotalExpenses] = useState(null);
     const [totalBudget, setTotalBudget] = useState(null);
@@ -121,6 +119,7 @@ const HomePage = () => {
     const [changeCurrencyModal, setChangeCurrencyModal] = useState(false);
     const [currentCurrency, setCurrentCurrency] = useState(localStorage.getItem('currency'));
 
+    const [loadChart, setLoadChart] = useState(false);
     const [reload, setReload] = useState(false);
 
     const navigate = useNavigate();
@@ -229,8 +228,6 @@ const HomePage = () => {
             })
 
             setTotalIncome(_totalIncome);
-
-            setTotalBudget(_totalBudget);
         } catch(error) {
             console.error(error);
         }
@@ -244,6 +241,8 @@ const HomePage = () => {
             setExchangeRate(response.conversion_rates);
         } catch(error) {
             console.error(error);
+        } finally {
+            setLoadChart(true);
         }
     }
 
@@ -346,7 +345,7 @@ const HomePage = () => {
                         <div className='month-date'>&lt; {getCurrentMonthAndYear().month} {getCurrentMonthAndYear().year} &gt;</div>
                         <div className="chart">
                             {
-                                allExpenses &&
+                                allExpenses && loadChart &&
                                 <MonthlyDonutChart
                                     data={allExpenses}
                                     month="January"
