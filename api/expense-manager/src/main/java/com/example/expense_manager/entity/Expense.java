@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Expense")
@@ -23,7 +24,7 @@ public class Expense {
     private String currency;
 
     @Column(nullable = false)
-    private Date expenseDate;
+    private LocalDate expenseDate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -75,11 +76,11 @@ public class Expense {
         this.currency = currency;
     }
 
-    public Date getExpenseDate() {
+    public LocalDate getExpenseDate() {
         return expenseDate;
     }
 
-    public void setExpenseDate(Date expenseDate) {
+    public void setExpenseDate(LocalDate expenseDate) {
         this.expenseDate = expenseDate;
     }
 

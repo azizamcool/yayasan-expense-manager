@@ -21,6 +21,8 @@ const RecordPage = ({type}) => {
     };
 
     const [amount, setAmount] = useState('');
+    const [notes, setNotes] = useState('');
+    const [expenseDate, setExpenseDate] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,6 +30,8 @@ const RecordPage = ({type}) => {
         try {
             const params = {
                 amount: amount,
+                notes: notes,
+                expenseDate: expenseDate,
                 username: localStorage.getItem('username')
             };
 
@@ -104,13 +108,22 @@ const RecordPage = ({type}) => {
                                         <div className="form-group">
                                             <label className="form-label">Date</label>
                                             <label className="colon-label">:</label>
-                                            <input type="date"/>
+                                            <input type="date"
+                                                   id="expenseDate"
+                                                   name="expenseDate"
+                                                   value={expenseDate}
+                                                   onChange={(e) => setExpenseDate(e.target.value)}/>
                                         </div>
                                         <div className="form-group">
                                             <label className="form-label">Note</label>
                                             <label className="colon-label">:</label>
                                             <div className="textarea-wrapper">
-                                                <textarea></textarea>
+                                                <textarea
+                                                    id="notes"
+                                                    name="notes"
+                                                    value={notes}
+                                                    onChange={(e) => setNotes(e.target.value)}
+                                                ></textarea>
                                                 <div className="add-btn-container">
                                                     <button type="button" className="add-file-button">Upload File</button>
                                                 </div>
