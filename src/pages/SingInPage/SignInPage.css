@@ -83,6 +83,7 @@
     border: 1px solid transparent;
     border-radius: 13px;
     background-color: rgba(103, 178, 96, 0.3);
+    font-size: 18px;
 }
 
 .login-button {

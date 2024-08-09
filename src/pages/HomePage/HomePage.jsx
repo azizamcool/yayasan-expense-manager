@@ -212,7 +212,7 @@ const HomePage = () => {
     }
 
     const handleGetExchangeRate = async () => {
-        const url = `https://v6.exchangerate-api.com/v6/516c0028e886ec71bb808dfd/latest/MYR`;
+        const url = `https://v6.exchangerate-api.com/v6/516c0028e886ec71bb808dfd/latest/${currentCurrency}`;
 
         try {
             const response = await ApiRequest(url, 'get');
