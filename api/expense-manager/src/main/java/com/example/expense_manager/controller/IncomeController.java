@@ -1,6 +1,7 @@
 package com.example.expense_manager.controller;
 
 
+import com.example.expense_manager.entity.Expense;
 import com.example.expense_manager.entity.Income;
 import com.example.expense_manager.entity.User;
 import com.example.expense_manager.service.IncomeService;
@@ -52,5 +53,23 @@ public class IncomeController {
 
         User user = userService.findByUsername(username);
         return ResponseEntity.ok(incomeService.getUserIncome(user));
+    }
+
+    @PutMapping("/updateIncomeWithExchangeRate")
+    public ResponseEntity<String> updateIncomeWithExchangeRate(@RequestParam String username, @RequestParam BigDecimal exchangeRate) {
+        User user = userService.findByUsername(username);
+
+        // Fetch all expenses for the user
+        List<Income> incomes = incomeService.getUserIncome(user);
+
+        for (Income income : incomes) {
+            BigDecimal originalAmount = income.getAmount();
+            BigDecimal convertedAmount = originalAmount.multiply(exchangeRate);
+
+            income.setAmount(convertedAmount);
+            incomeService.save(income); // Save the updated expense
+        }
+
+        return ResponseEntity.ok("Expenses updated with the exchange rate of " + exchangeRate);
     }
 }

@@ -14,6 +14,7 @@ const API_END_POINTS = {
     UPDATE_CURRENCY: `${API_URL}/updateCurrency`,
     APPLY_EXCHANGE_RATE_EXPENSE: `${API_URL}/updateExpensesWithExchangeRate`,
     APPLY_EXCHANGE_RATE_BUDGET: `${API_URL}/updateBudgetsWithExchangeRate`,
+    APPLY_EXCHANGE_RATE_INCOME: `${API_URL}/updateIncomeWithExchangeRate`,
 }
 
 export default API_END_POINTS

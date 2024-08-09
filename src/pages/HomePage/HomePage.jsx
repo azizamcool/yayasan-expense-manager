@@ -110,10 +110,12 @@ const HomePage = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
     const [allExpenses, setAllExpenses] = useState(null);
+    const [allIncomes, setAllIncomes] = useState(null);
 
     const [totalExpense, setTotalExpenses] = useState(null);
     const [totalBudget, setTotalBudget] = useState(null);
     const [balance, setBalance] = useState(null);
+    const [totalIncome, setTotalIncome] = useState(null);
 
     const [exchangeRate, setExchangeRate] = useState(null);
     const [changeCurrencyModal, setChangeCurrencyModal] = useState(false);
@@ -145,6 +147,7 @@ const HomePage = () => {
 
             const applyExchangeExpenseResponse = await ApiRequest(API_END_POINTS.APPLY_EXCHANGE_RATE_EXPENSE, 'put', params);
             const applyExchangeBudgetResponse = await ApiRequest(API_END_POINTS.APPLY_EXCHANGE_RATE_BUDGET, 'put', params);
+            const applyExchangeIncomeResponse = await ApiRequest(API_END_POINTS.APPLY_EXCHANGE_RATE_INCOME, 'put', params);
 
             localStorage.setItem('currency', updateCurrencyResponse);
             setCurrentCurrency(updateCurrencyResponse);
@@ -212,6 +215,27 @@ const HomePage = () => {
         }
     }
 
+    const handleGetIncome = async () => {
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const incomes = await ApiRequest(API_END_POINTS.GET_INCOME, 'get', params);
+
+            let _totalIncome = 0;
+            incomes.map((income) => {
+                _totalIncome += income.amount;
+            })
+
+            setTotalIncome(_totalIncome);
+
+            setTotalBudget(_totalBudget);
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
     const handleGetExchangeRate = async () => {
         const url = `https://v6.exchangerate-api.com/v6/516c0028e886ec71bb808dfd/latest/${currentCurrency}`;
 
@@ -242,12 +266,13 @@ const HomePage = () => {
 
         handleGetExpenses();
         handleGetBudgets();
+        handleGetIncome();
         handleGetExchangeRate();
     }, [reload]);
 
     useEffect(() => {
         if (totalExpense && totalBudget) {
-            const _balance = totalBudget - totalExpense;
+            const _balance = totalIncome - totalExpense;
             setBalance(_balance);
         }
     }, [handleGetBudgets]);
@@ -289,10 +314,10 @@ const HomePage = () => {
                         <h2>Expense</h2>
                         <p>{currentCurrency} {Number(totalExpense).toFixed(2)}</p>
                     </div>
-                    {/* <div className="header-item income">
+                    <div className="header-item income">
                         <h2>Income</h2>
-                        <p>{currentCurrency} 3830</p>
-                    </div> */}
+                        <p>{currentCurrency} {Number(totalIncome).toFixed(2)}</p>
+                    </div>
                     <div className="header-item balance">
                         <h2>Balance</h2>
                         <p>{currentCurrency} {Number(balance).toFixed(2)}</p>
@@ -331,9 +356,7 @@ const HomePage = () => {
                         </div>
                         <div className='chart-footer-text'>
                             <div>Total {currentCurrency} {Number(totalExpense).toFixed(2)}</div>
-                            <button className="plus-button"  onClick={handleRecord} >+</button> {/* Add your
-                             button here */}
-
+                            <button className="plus-button"  onClick={handleRecord} >+</button> 
                         </div>
                         
                     </div>
