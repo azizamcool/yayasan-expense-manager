@@ -71,4 +71,22 @@ public class ExpenseController {
         List<Expense> expensesEd = expenseService.getUserExpensesByCategory(userEd, categoryEd);
         return ResponseEntity.ok(expensesEd);
     }
+
+    @PutMapping("/updateExpensesWithExchangeRate")
+    public ResponseEntity<String> updateExpensesWithExchangeRate(@RequestParam String username, @RequestParam BigDecimal exchangeRate) {
+        User user = userService.findByUsername(username);
+
+        // Fetch all expenses for the user
+        List<Expense> expenses = expenseService.getUserExpense(user);
+
+        for (Expense expense : expenses) {
+            BigDecimal originalAmount = expense.getAmount();
+            BigDecimal convertedAmount = originalAmount.multiply(exchangeRate);
+
+            expense.setAmount(convertedAmount);
+            expenseService.save(expense); // Save the updated expense
+        }
+
+        return ResponseEntity.ok("Expenses updated with the exchange rate of " + exchangeRate);
+    }
 }

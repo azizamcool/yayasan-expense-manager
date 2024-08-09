@@ -27,9 +27,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     <li className={location.pathname === '/' ? 'active-nav' : ''}>
                         <Link to="/">Homepage</Link>
                     </li>
-                    <li className={location.pathname === '/statistic' ? 'active-nav' : ''}>
+                    {/* <li className={location.pathname === '/statistic' ? 'active-nav' : ''}>
                         <Link to="/statistic">Statistics</Link>
-                    </li>
+                    </li> */}
                     <li className={location.pathname === '/budget' ? 'active-nav' : ''}>
                         <Link to="/budget">Budget</Link>
                     </li>

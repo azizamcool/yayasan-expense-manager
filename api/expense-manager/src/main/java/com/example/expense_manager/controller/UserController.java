@@ -1,15 +1,22 @@
 package com.example.expense_manager.controller;
 
+import com.example.expense_manager.entity.Expense;
 import com.example.expense_manager.entity.User;
+import com.example.expense_manager.service.ExpenseService;
 import com.example.expense_manager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ExpenseService expenseService;
 
     //kena tambah user dan setup currency?
     @PostMapping("/register")
@@ -33,9 +40,30 @@ public class UserController {
     public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
         User user = userService.findByUsername(username);
         if (user != null && user.getPasswordHash().equals(password)) {
-            return ResponseEntity.ok("Login successful , Welcome, " + user.getUsername());
+            return ResponseEntity.ok(user.getUsername() + " " + user.getPreferredCurrency());
         }
         return ResponseEntity.status(401).body("Invalid username or password");
     }
 
+    @PutMapping("/updateCurrency")
+    public ResponseEntity<String> setCurrency(@RequestParam String username, @RequestParam String currency) {
+        User user = userService.findByUsername(username);
+        List<Expense> expenses = expenseService.getUserExpense(user);
+
+        if (user != null) {
+            user.setPreferredCurrency(currency);
+            userService.save(user);
+
+            if (expenses != null) {
+                for (Expense expense : expenses) {
+                    expense.setCurrency((currency));
+                    expenseService.save(expense);
+                }
+            }
+
+            return ResponseEntity.ok(user.getPreferredCurrency());
+        }
+
+        return ResponseEntity.status(404).body("User not found");
+    }
 }

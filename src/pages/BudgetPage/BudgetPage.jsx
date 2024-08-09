@@ -19,6 +19,8 @@ const BudgetPage = () => {
 
     const [reload, setReload] = useState(false);
 
+    const currentCurrency = localStorage.getItem('currency');
+
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -134,7 +136,7 @@ const BudgetPage = () => {
                     <div key={budget.category + index} className='progress-bar-container'>
                         <div className='progress-bar-title'>
                             <h3>{budget.category}</h3>
-                            <h3>RM {budget.expenses} / RM {budget.budget}</h3>
+                            <h3>{currentCurrency} {budget.expenses} / {currentCurrency} {budget.budget}</h3>
                         </div>
                         <div className='progress-bar'>
                             <div 
@@ -201,7 +203,7 @@ const BudgetPage = () => {
                 <div className='budget-right-container'>
                     <div className='budget-container-title'>
                             <h2>This month</h2>
-                            <p className='expense-progress'>RM {totalExpense} / RM {totalBudget}</p>
+                            <p className='expense-progress'>{currentCurrency} {Number(totalExpense).toFixed(2)} / {currentCurrency} {Number(totalBudget).toFixed(2)}</p>
                     </div>
                     {
                         allExpenses && allBudgets &&
