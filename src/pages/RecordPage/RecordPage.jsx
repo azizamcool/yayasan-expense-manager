@@ -81,22 +81,22 @@ const RecordPage = ({type}) => {
                                 {type === 'expense' && (
                                     <>
                                         <div className="form-group">
-                                            <label>Category</label>
-                                            <label>:</label>
+                                            <label className="form-label">Category</label>
+                                            <label className="colon-label">:</label>
                                             <select>
                                                 <option value=""></option>
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <label>Account</label>
-                                            <label>:</label>
+                                            <label className="form-label">Account</label>
+                                            <label className="colon-label">:</label>
                                             <select>
                                                 <option value=""></option>
                                             </select>
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="amount">Amount</label>
-                                            <label>:</label>
+                                            <label htmlFor="amount" className="form-label">Amount</label>
+                                            <label className="colon-label">:</label>
                                             <input
                                             type="number"
                                             id="amount"
@@ -106,14 +106,19 @@ const RecordPage = ({type}) => {
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label>Date</label>
-                                            <label>:</label>
+                                            <label className="form-label">Date</label>
+                                            <label className="colon-label">:</label>
                                             <input type="date"/>
                                         </div>
                                         <div className="form-group">
-                                            <label>Note</label>
-                                            <label>:</label>
-                                            <textarea></textarea>
+                                            <label className="form-label">Note</label>
+                                            <label className="colon-label">:</label>
+                                            <div className="textarea-wrapper">
+                                                <textarea></textarea>
+                                                <div className="add-btn-container">
+                                                    <button type="button" className="add-file-button">Upload File</button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="add-btn-container">
                                             <button type="submit" className="add-btn">Add Expense</button>
