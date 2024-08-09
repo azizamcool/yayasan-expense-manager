@@ -27,6 +27,7 @@ const SignInPage = () => {
 
             console.log("response: ", response);
             localStorage.setItem('username', username);
+            localStorage.setItem('currency', response.split(" ")[1]);
 
             navigate('/');
         } catch(error) {

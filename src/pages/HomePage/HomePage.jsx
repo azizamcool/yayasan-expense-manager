@@ -5,6 +5,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import Sidebar from '../../components/Sidebar';
 import ApiRequest from '../../config/api-request';
 import API_END_POINTS from '../../config/api-end-points';
+import currenryImage from '../../assets/currency.png';
 
 import './HomePage.css';
 
@@ -62,6 +63,48 @@ const ExpenseItem = ({ name, amount, percentage }) => (
     </div>
 );
 
+const CurrencyModal = ({ isOpen, onClose, currentCurrency, onChangeCurrency, exchangeRate }) => {
+    const [newCurrency, setNewCurrency] = useState(currentCurrency);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onChangeCurrency(newCurrency);
+        onClose();
+    };
+
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <h2>Change Currency</h2>
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label>Current Currency:</label>
+                        <span>{currentCurrency}</span>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="newCurrency">New Currency:</label>
+                        <select
+                            id="newCurrency"
+                            value={newCurrency}
+                            onChange={(e) => setNewCurrency(e.target.value)}
+                        >
+                            {Object.keys(exchangeRate).map((currency) => (
+                                <option key={currency} value={currency}>
+                                    {currency}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <button className="submit-currency-btn" type="submit">Submit</button>
+                </form>
+                <button className="close-btn" onClick={onClose}>X</button>
+            </div>
+        </div>
+    );
+};
+
 const HomePage = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
@@ -71,11 +114,46 @@ const HomePage = () => {
     const [totalBudget, setTotalBudget] = useState(null);
     const [balance, setBalance] = useState(null);
 
+    const [exchangeRate, setExchangeRate] = useState(null);
+    const [changeCurrencyModal, setChangeCurrencyModal] = useState(false);
+    const [currentCurrency, setCurrentCurrency] = useState(localStorage.getItem('currency'));
+
+    const [reload, setReload] = useState(false);
+
     const navigate = useNavigate();
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+    const handleChangeCurrency = async (newCurrency) => {
+        const _exchangeRate = exchangeRate[newCurrency];
+        
+        try {
+            let params = {
+                username: localStorage.getItem('username'),
+                currency: newCurrency
+            };
+
+            const updateCurrencyResponse = await ApiRequest(API_END_POINTS.UPDATE_CURRENCY, 'put', params);
+
+            params = {
+                username: localStorage.getItem('username'),
+                exchangeRate: _exchangeRate
+            };
+
+            const applyExchangeExpenseResponse = await ApiRequest(API_END_POINTS.APPLY_EXCHANGE_RATE_EXPENSE, 'put', params);
+            const applyExchangeBudgetResponse = await ApiRequest(API_END_POINTS.APPLY_EXCHANGE_RATE_BUDGET, 'put', params);
+
+            localStorage.setItem('currency', updateCurrencyResponse);
+            setCurrentCurrency(updateCurrencyResponse);
+            setReload(!reload);
+            return alert("Currency updated to " + newCurrency);
+        } catch(error) {
+            console.error(error);
+        }
+
+    }
 
     const handleGetExpenses = async () => {
         // get expenses
@@ -106,7 +184,6 @@ const HomePage = () => {
             const _expenses = Object.values(groupedExpenses);
             const _totalExpense = _expenses.reduce((total, expense) => total += expense.value, 0);
 
-            console.log(_expenses);
             setTotalExpenses(_totalExpense);
             setAllExpenses(_expenses);
         } catch(error) {
@@ -134,6 +211,17 @@ const HomePage = () => {
         }
     }
 
+    const handleGetExchangeRate = async () => {
+        const url = `https://v6.exchangerate-api.com/v6/516c0028e886ec71bb808dfd/latest/MYR`;
+
+        try {
+            const response = await ApiRequest(url, 'get');
+            setExchangeRate(response.conversion_rates);
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
     const getCurrentMonthAndYear = () => {
         const now = new Date();
         const monthNames = [
@@ -153,7 +241,8 @@ const HomePage = () => {
 
         handleGetExpenses();
         handleGetBudgets();
-    }, []);
+        handleGetExchangeRate();
+    }, [reload]);
 
     useEffect(() => {
         if (totalExpense && totalBudget) {
@@ -173,7 +262,7 @@ const HomePage = () => {
                         <ExpenseItem
                             key={ex.name} // Ensure each item has a unique key
                             name={ex.name}
-                            amount={`RM ${ex.value}`}
+                            amount={`${currentCurrency} ${Number(ex.value).toFixed(2)}`}
                             percentage={percentage}
                         />
                     );
@@ -184,23 +273,29 @@ const HomePage = () => {
 
     return(
         <div className="wrapper">
-            <div className={`header ${isSidebarOpen ? 'blurred' : ''}`}>
-                <div className="hamburger-menu" onClick={toggleSidebar}>
-                    <div className="bar"></div>
-                    <div className="bar"></div>
-                    <div className="bar"></div>
+            <div className={`outer-header ${isSidebarOpen ? 'blurred' : ''}`}>
+                <div className={`header ${isSidebarOpen ? 'blurred' : ''}`}>
+                    <div className="hamburger-menu" onClick={toggleSidebar}>
+                        <div className="bar"></div>
+                        <div className="bar"></div>
+                        <div className="bar"></div>
+                    </div>
+                    <div className="header-item expense">
+                        <h2>Expense</h2>
+                        <p>{currentCurrency} {Number(totalExpense).toFixed(2)}</p>
+                    </div>
+                    <div className="header-item income">
+                        <h2>Income</h2>
+                        <p>{currentCurrency} 3830</p>
+                    </div>
+                    <div className="header-item balance">
+                        <h2>Balance</h2>
+                        <p>{currentCurrency} {Number(balance).toFixed(2)}</p>
+                    </div>
                 </div>
-                <div className="header-item expense">
-                    <h2>Expense</h2>
-                    <p>RM {totalExpense}</p>
-                </div>
-                <div className="header-item income">
-                    <h2>Income</h2>
-                    <p>RM 3830</p>
-                </div>
-                <div className="header-item balance">
-                    <h2>Balance</h2>
-                    <p>RM {balance}</p>
+
+                <div className='currency-container' onClick={() => setChangeCurrencyModal(true)}>
+                    <img className='currency-image' src={currenryImage}></img>
                 </div>
             </div>
 
@@ -230,13 +325,20 @@ const HomePage = () => {
                             }
                         </div>
                         <div className='chart-footer-text'>
-                            <div>Total RM {totalExpense}</div>
+                            <div>Total {currentCurrency} {Number(totalExpense).toFixed(2)}</div>
                             <button className="plus-button">+</button> {/* Add your button here */}
                         </div>
-                        
                     </div>
                 </div>
             </div>
+
+            <CurrencyModal 
+                isOpen={changeCurrencyModal} 
+                onClose={() => setChangeCurrencyModal(false)} 
+                currentCurrency={currentCurrency} 
+                onChangeCurrency={handleChangeCurrency}
+                exchangeRate={exchangeRate}
+            />
         </div>
     );
 };

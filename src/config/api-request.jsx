@@ -15,7 +15,11 @@ const ApiRequest = async (url, method, params) => {
         } else if (method.toUpperCase() === 'GET') {
             const response = await axios.get(`${url}?${formData}`);
             return response.data;
-        } else {
+        } else if (method.toUpperCase() === 'PUT') {
+            const response = await axios.put(`${url}?${formData}`);
+            return response.data;
+        } 
+        else {
             throw new Error('Unsupported HTTP method');
         }
     } catch (error) {
