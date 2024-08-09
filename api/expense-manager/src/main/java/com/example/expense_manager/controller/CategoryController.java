@@ -1,7 +1,6 @@
 package com.example.expense_manager.controller;
 
 import com.example.expense_manager.entity.Category;
-import com.example.expense_manager.entity.Expense;
 import com.example.expense_manager.entity.User;
 import com.example.expense_manager.service.CategoryService;
 import com.example.expense_manager.service.UserService;
@@ -23,14 +22,23 @@ public class CategoryController {
     //verify
     @PostMapping("/category")
     @ResponseBody
-    public String createCategory(@RequestParam String categoryName, @RequestParam String username) {
+    public ResponseEntity<String> createCategory(@RequestParam String categoryName, @RequestParam String username) {
         User user = userService.findByUsername(username);
+        List<Category> currentCategories = categoryService.getUserCategory(user);
+
+        if (currentCategories != null) {
+            for (Category category : currentCategories) {
+                if (category.getName().equals(categoryName)) {
+                    return ResponseEntity.ok("existed");
+                }
+            }
+        }
         Category category = new Category();
 
         category.setName(categoryName);
         category.setUser(user);
         categoryService.save(category);
-        return "Category " +category.getName() + " save!";
+        return ResponseEntity.ok("Category " + categoryName + " saveed!");
     }
 
     //verify

@@ -23,6 +23,8 @@ const CategoryPage = () => {
 
             const response = await ApiRequest(API_END_POINTS.CREATE_CATEGORY, 'post', params);
 
+            if (response == 'existed') return alert('This category already existed!');
+
             setCategoryName('');
             return alert("New Category " + categoryName + " created successfully!");
         } catch(error) {

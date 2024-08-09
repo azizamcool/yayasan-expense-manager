@@ -36,6 +36,21 @@ public class BudgetController {
                                                @RequestParam Date periodEnd) {
         User user = userService.findByUsername(username);
         Category category = categoryService.findById(categoryId);
+        List<Budget> currentBudgets = budgetService.getBudgetsByUser(user);
+
+        if (currentBudgets != null) {
+            for (Budget b : currentBudgets) {
+                if (category.getName().equals(b.getCategory().getName())) {
+                    BigDecimal currentAmount = b.getAmount();
+                    BigDecimal updatedAmount = currentAmount.add(amount);
+
+                    b.setAmount(updatedAmount);
+                    budgetService.save(b);
+
+                    return ResponseEntity.ok("Budget saved successfully!");
+                }
+            }
+        }
 
         Budget budget = new Budget();
         budget.setUser(user);
@@ -45,6 +60,7 @@ public class BudgetController {
         budget.setPeriodEnd(periodEnd);
 
         budgetService.save(budget);
+
         return ResponseEntity.ok("Budget saved successfully!");
     }
 
