@@ -124,19 +124,31 @@ const RecordPage = ({type}) => {
                                 {type === 'income' && (
                                     <>
                                         <div className="form-group">
-                                            <label>Amount</label>
-                                            <label>:</label>
-                                            <input type="text"/>
+                                            <label htmlFor="amount" className="form-label">Amount</label>
+                                            <label className="colon-label">:</label>
+                                            <input
+                                                type="number"
+                                                id="amount"
+                                                name="amount"
+                                                value={amount}
+                                                onChange={(e) => setAmount(e.target.value)}
+                                            />
                                         </div>
                                         <div className="form-group">
-                                            <label>Date</label>
-                                            <label>:</label>
+                                            <label className="form-label">Date</label>
+                                            <label className="colon-label">:</label>
                                             <input type="date"/>
                                         </div>
                                         <div className="form-group">
-                                            <label>Note</label>
-                                            <label>:</label>
-                                            <textarea></textarea>
+                                            <label className="form-label">Note</label>
+                                            <label className="colon-label">:</label>
+                                            <div className="textarea-wrapper">
+                                                <textarea></textarea>
+                                                <div className="add-btn-container">
+                                                    <button type="button" className="add-file-button">Upload File
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="add-btn-container">
                                             <button type="submit" className="add-btn">Add Income</button>
