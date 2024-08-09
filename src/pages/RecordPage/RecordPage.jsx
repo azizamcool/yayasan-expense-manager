@@ -23,6 +23,27 @@ const RecordPage = ({type}) => {
     const [amount, setAmount] = useState('');
     const [notes, setNotes] = useState('');
     const [expenseDate, setExpenseDate] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('');
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await ApiRequest(API_END_POINTS.GET_CATEGORY, 'get');
+                if (response && response.data) {
+                    console.log(response.data);
+                    setCategories(response.data);
+                } else {
+                    console.error("No data received ka");
+                }
+                // Store fetched categories in state
+            } catch (error) {
+                console.error("Error fetching categories", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,6 +53,7 @@ const RecordPage = ({type}) => {
                 amount: amount,
                 notes: notes,
                 expenseDate: expenseDate,
+                categoryId: selectedCategory,
                 username: localStorage.getItem('username')
             };
 
@@ -83,8 +105,17 @@ const RecordPage = ({type}) => {
                                         <div className="form-group">
                                             <label className="form-label">Category</label>
                                             <label className="colon-label">:</label>
-                                            <select>
-                                                <option value=""></option>
+                                            <select
+                                                value={selectedCategory}
+                                                onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category state
+                                            >
+                                                <option value="">Select Category</option>
+                                                {/* Default option */}
+                                                {categories.map((category) => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
                                         {/*<div className="form-group">*/}
