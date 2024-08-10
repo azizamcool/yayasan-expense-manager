@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 
 @RestController
@@ -23,14 +24,18 @@ public class UserController {
     @Autowired
     private IncomeService incomeService;
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/register")
     @ResponseBody
     public String registerUser(@RequestParam String username, @RequestParam String password,
                                @RequestParam(required = false) String email) {
-        
+
+        String hashedPassword = passwordEncoder.encode(password);
+
         User user = new User();
         user.setUsername(username);
-        user.setPasswordHash(password);
+        user.setPasswordHash(hashedPassword);
         user.setEmail(email);
         user.setPreferredCurrency("MYR");
         userService.save(user);
@@ -41,7 +46,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
         User user = userService.findByUsername(username);
-        if (user != null && user.getPasswordHash().equals(password)) {
+        if (user != null && passwordEncoder.matches(password, user.getPasswordHash())) {
             return ResponseEntity.ok(user.getUsername() + " " + user.getPreferredCurrency());
         }
         return ResponseEntity.status(401).body("Invalid username or password");

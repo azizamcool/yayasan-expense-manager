@@ -9,6 +9,7 @@ import API_END_POINTS from "../../config/api-end-points.jsx";
 
 const RecordPage = ({type}) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
+    const [reload, setReload] = useState(false);
     const navigate = useNavigate();
 
     const toggleSidebar = () => {
@@ -41,9 +42,40 @@ const RecordPage = ({type}) => {
         }
     }
 
+    const [income, setIncome] = useState([]);
+    const handleGetIncome = async () => {
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const incomes = await ApiRequest(API_END_POINTS.GET_INCOME, 'get', params);
+            setIncome(incomes);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const [expense, setExpense] = useState([]);
+    const handleGetExpense = async () => {
+        try {
+            const params = {
+                username: localStorage.getItem('username')
+            };
+
+            const expense = await ApiRequest(API_END_POINTS.GET_EXPENSES, 'get', params);
+            setExpense(expense);
+            console.log(expense);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         handleGetCategory();
-    }, []);
+        handleGetIncome();
+        handleGetExpense()
+    }, [reload]);
 
 
     const handleSubmit = async (e) => {
@@ -67,6 +99,7 @@ const RecordPage = ({type}) => {
                 setAmount('');
                 setExpenseDate('');
                 setNotes('');
+                setReload(!reload);
                 return alert("Expense created successfully!");
             } else if (type === 'income') {
                 params = {
@@ -81,6 +114,7 @@ const RecordPage = ({type}) => {
                 setAmount('');
                 setIncomeDate('');
                 setNotes('');
+                setReload(!reload);
                 return alert("Income created successfully!");
             }
         } catch(error) {
@@ -125,8 +159,8 @@ const RecordPage = ({type}) => {
                                             <label className="form-label">Category</label>
                                             <label className="colon-label">:</label>
                                             <select id="category" name="category"
-                                                value={selectedCategory}
-                                                onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category state
+                                                    value={selectedCategory}
+                                                    onChange={(e) => setSelectedCategory(e.target.value)} // Update selected category state
                                             >
                                                 {
                                                     allCategories && allCategories.map((category) => (
@@ -139,11 +173,11 @@ const RecordPage = ({type}) => {
                                             <label htmlFor="amount" className="form-label">Amount</label>
                                             <label className="colon-label">:</label>
                                             <input
-                                            type="number"
-                                            id="amount"
-                                            name="amount"
-                                            value={amount}
-                                            onChange={(e) => setAmount(e.target.value)}
+                                                type="number"
+                                                id="amount"
+                                                name="amount"
+                                                value={amount}
+                                                onChange={(e) => setAmount(e.target.value)}
                                             />
                                         </div>
                                         <div className="form-group-expense">
@@ -218,7 +252,70 @@ const RecordPage = ({type}) => {
 
                     </div>
 
-                </div>
+
+                    {/*<div className="record-right-container">*/}
+                        <div className="add-file">
+                            <div className="upload-container">
+
+                                {type === 'expense' && (
+                                    <>
+                                        <label className="form-label">Expense List</label>
+
+                                        <table className="income-table">
+                                            <thead>
+
+                                            <tr>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Category</th>
+                                                <th>Notes</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {expense.map((expense) => (
+                                                <tr key={expense.id}>
+                                                    <td>{expense.amount}</td>
+                                                    <td>{expense.expenseDate}</td>
+                                                    <td>{expense.category.name}</td>
+                                                    <td>{expense.notes}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+
+                                    </>
+                                    )}
+                                {type === 'income' && (
+                                    <>
+                                        <label className="form-label">Income List</label>
+
+                                        <table className="income-table">
+                                            <thead>
+
+                                            <tr>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Notes</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            {income.map((income) => (
+                                                <tr key={income.id}>
+                                                    <td>{income.amount}</td>
+                                                    <td>{income.incomeDate}</td>
+                                                    <td>{income.notes}</td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
 
             </div>
 

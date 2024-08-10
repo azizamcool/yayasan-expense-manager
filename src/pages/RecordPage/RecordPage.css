@@ -165,7 +165,6 @@
 
 
 .upload-container {
-    padding-top: 50px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -206,65 +205,30 @@
     cursor: pointer;
 }
 
-/* Calendar styling */
-.calendar-container-record {
-    width: fit-content;
-}
-
-.calendar-container {
+.income-table {
+    width: 100%; /* Full width */
+    border-collapse: collapse; /* Merge borders */
+   /* Margin around the table */
+    font-size: 18px; /* Font size for text */
+    text-align: center;
     background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-    color: #2C4C29;
+.income-table th, .income-table td {
+    border: 1px solid #dddddd; /* Light border around cells */
+    padding: 8px 12px; /* Padding inside cells */
+}
+
+.income-table th {
     font-family: 'Kanit', sans-serif;
-    font-weight: bold;
-    font-size: 30px;
+    background-color: #6F9C7B;
+    color: white/* Bold text in header */
 }
 
-.calendar-header h3 {
-    margin: 0;
-    font-size: 24px;
+.income-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternate row color */
 }
 
-.calendar {
-    display: flex;
-    flex-direction: column;
+.income-table tr:hover {
+    background-color: #f1f1f1; /* Highlight row on hover */
 }
-
-.calendar .days {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.calendar .days div {
-    flex: 1;
-    text-align: center;
-}
-
-.calendar .dates {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.calendar .dates div {
-    width: calc(100% / 7);
-    text-align: center;
-    padding: 5px;
-}
-
-.view-report {
-    text-align: right;
-    margin-top: 10px;
-    color: #2C4C29;
-    cursor: pointer;
-}
-
