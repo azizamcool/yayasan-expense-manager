@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import './SignInPage.css';
@@ -12,7 +12,14 @@ const SignInPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+        // if already logged in, navigate to homepage
+        if (localStorage.getItem('username')) {
+            navigate('/');
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

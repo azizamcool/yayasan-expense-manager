@@ -66,6 +66,7 @@ const RecordPage = ({type}) => {
 
                 setAmount('');
                 setExpenseDate('');
+                setNotes('');
                 return alert("Expense created successfully!");
             } else if (type === 'income') {
                 params = {
@@ -79,6 +80,7 @@ const RecordPage = ({type}) => {
 
                 setAmount('');
                 setIncomeDate('');
+                setNotes('');
                 return alert("Income created successfully!");
             }
         } catch(error) {
